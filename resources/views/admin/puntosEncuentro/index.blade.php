@@ -1,4 +1,3 @@
-
 <div class="container">
     <h1 class="text-center mb-4">Puntos de Encuentro</h1>
     
@@ -9,18 +8,19 @@
     @endif
 
     <div class="mb-3">
-    <a href="{{ route('admin.puntos-encuentro.create') }}" class="btn btn-primary">
-    <i class="fas fa-plus"></i> Nuevo Punto
+        <a href="{{ route('admin.puntos-encuentro.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Nuevo Punto
         </a>
     </div>
 
     <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table table-striped table-hover">
             <thead class="table-dark">
                 <tr>
                     <th>Nombre</th>
                     <th>Capacidad</th>
                     <th>Responsable</th>
+                    <th>Radio de Cobertura</th>
                     <th>Ubicación</th>
                     <th>Acciones</th>
                 </tr>
@@ -29,8 +29,9 @@
                 @forelse($puntos as $punto)
                 <tr>
                     <td>{{ $punto->nombre }}</td>
-                    <td>{{ $punto->capacidad }}</td>
+                    <td>{{ $punto->capacidad }} personas</td>
                     <td>{{ $punto->responsable }}</td>
+                    <td>{{ $punto->radio }} metros</td>
                     <td>
                         <small>Lat: {{ $punto->latitud }}</small><br>
                         <small>Lng: {{ $punto->longitud }}</small>
@@ -55,7 +56,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="text-center">No hay puntos de encuentro registrados</td>
+                    <td colspan="6" class="text-center">No hay puntos de encuentro registrados</td>
                 </tr>
                 @endforelse
             </tbody>
