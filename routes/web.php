@@ -41,4 +41,16 @@ Route::resource('/admin/zonas-seguras', ZonaSeguraController::class);
 
 
 ///rita para los puntos de encuentro
-Route::resource('puntos-encuentro', PuntoEncuentroController::class);
+// RUTAS PARA PUNTOS DE ENCUENTRO (ADMIN)
+Route::prefix('admin')->group(function() {
+    Route::resource('puntos-encuentro', PuntoEncuentroController::class)
+         ->names([
+             'index' => 'admin.puntos-encuentro.index',
+             'create' => 'admin.puntos-encuentro.create',
+             'store' => 'admin.puntos-encuentro.store',
+             'show' => 'admin.puntos-encuentro.show',
+             'edit' => 'admin.puntos-encuentro.edit',
+             'update' => 'admin.puntos-encuentro.update',
+             'destroy' => 'admin.puntos-encuentro.destroy'
+         ]);
+});
