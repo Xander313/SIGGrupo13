@@ -1,5 +1,5 @@
 <h1>NUEVO PUNTO DE ENCUENTRO</h1>
-<form action="{{ route('puntos-encuentro.store') }}" method="POST">
+<form action="{{ route('admin.puntos-encuentro.store') }}" method="POST">
     @csrf
     
     <div class="mb-3">
@@ -33,7 +33,7 @@
     </div>
 
     <button type="submit" class="btn btn-success">Guardar</button>
-    <a href="{{ route('puntos-encuentro.index') }}" class="btn btn-danger">Cancelar</a>
+    <a href="{{ route('admin.puntos-encuentro.index') }}" class="btn btn-danger">Cancelar</a>
 </form>
 
 <script>

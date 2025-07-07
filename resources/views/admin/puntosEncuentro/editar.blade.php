@@ -1,6 +1,6 @@
 
 <h1>EDITAR PUNTO DE ENCUENTRO</h1>
-<form action="{{ route('puntos-encuentro.update', $punto->id) }}" method="POST">
+<form action="{{ route('admin.puntos-encuentro.update', $punto->id) }}" method="POST">
     @csrf
     @method('PUT')
     
@@ -35,7 +35,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Actualizar</button>
-    <a href="{{ route('puntos-encuentro.index') }}" class="btn btn-danger">Cancelar</a>
+    <a href="{{ route('admin.puntos-encuentro.index') }}" class="btn btn-danger">Cancelar</a>
 </form>
 
 <script>

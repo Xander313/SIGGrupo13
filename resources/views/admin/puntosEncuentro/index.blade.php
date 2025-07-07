@@ -9,8 +9,8 @@
     @endif
 
     <div class="mb-3">
-        <a href="{{ route('puntos-encuentro.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Nuevo Punto
+    <a href="{{ route('admin.puntos-encuentro.create') }}" class="btn btn-primary">
+    <i class="fas fa-plus"></i> Nuevo Punto
         </a>
     </div>
 

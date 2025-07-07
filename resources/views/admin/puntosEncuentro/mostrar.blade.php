@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="card-footer text-end">
-            <a href="{{ route('puntos-encuentro.index') }}" class="btn btn-secondary">
+            <a href="{{ route('admin.puntos-encuentro.index') }}" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> Volver
             </a>
         </div>
