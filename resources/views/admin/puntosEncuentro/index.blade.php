@@ -37,13 +37,13 @@
                     </td>
                     <td>
                         <div class="d-flex gap-2">
-                            <a href="{{ route('puntos-encuentro.show', $punto->id) }}" class="btn btn-sm btn-info">
+                            <a href="{{ route('admin.puntos-encuentro.show', $punto->id) }}" class="btn btn-sm btn-info">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a href="{{ route('puntos-encuentro.edit', $punto->id) }}" class="btn btn-sm btn-primary">
+                            <a href="{{ route('admin.puntos-encuentro.edit', $punto->id) }}" class="btn btn-sm btn-primary">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="{{ route('puntos-encuentro.destroy', $punto->id) }}" method="POST">
+                            <form action="{{ route('admin.puntos-encuentro.destroy', $punto->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar este punto?')">

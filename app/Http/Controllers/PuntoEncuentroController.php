@@ -30,7 +30,7 @@ class PuntoEncuentroController extends Controller
 
         PuntoEncuentro::create($request->all());
 
-        return redirect()->route('puntos-encuentro.index')
+        return redirect()->route('admin.puntos-encuentro.index')
             ->with('success', 'Punto de encuentro creado exitosamente');
     }
 
@@ -60,7 +60,7 @@ class PuntoEncuentroController extends Controller
 
         $punto->update($request->all());
 
-        return redirect()->route('puntos-encuentro.index')
+        return redirect()->route('admin.puntos-encuentro.index')
             ->with('success', 'Punto de encuentro actualizado exitosamente');
     }
 
@@ -69,7 +69,7 @@ class PuntoEncuentroController extends Controller
         $punto = PuntoEncuentro::findOrFail($id);
         $punto->delete();
 
-        return redirect()->route('puntos-encuentro.index')
+        return redirect()->route('admin.puntos-encuentro.index')
             ->with('success', 'Punto de encuentro eliminado exitosamente');
     }
 }
