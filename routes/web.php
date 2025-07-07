@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ZonaSeguraController;
+use App\Http\Controllers\PuntoEncuentroController;
+
 
 
 
@@ -34,3 +36,9 @@ Route::get('/zonas-seguras/vista-reporte', [ZonaSeguraController::class, 'vistaR
 
 //RUTA FULLREST PARA ZONAS SEGURAS
 Route::resource('/admin/zonas-seguras', ZonaSeguraController::class);
+
+
+
+
+///rita para los puntos de encuentro
+Route::resource('puntos-encuentro', PuntoEncuentroController::class);
