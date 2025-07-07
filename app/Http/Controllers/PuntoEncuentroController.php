@@ -10,12 +10,12 @@ class PuntoEncuentroController extends Controller
     public function index()
     {
         $puntos = PuntoEncuentro::all();
-        return view('puntosEncuentro.index', compact('puntos'));
+        return view('admin.puntosEncuentro.index', compact('puntos'));
     }
 
     public function create()
     {
-        return view('puntosEncuentro.nuevo');
+        return view('admin.puntosEncuentro.nuevo');
     }
 
     public function store(Request $request)
@@ -37,13 +37,13 @@ class PuntoEncuentroController extends Controller
     public function show($id)
     {
         $punto = PuntoEncuentro::findOrFail($id);
-        return view('puntosEncuentro.mostrar', compact('punto'));
+        return view('admin.puntosEncuentro.mostrar', compact('punto'));
     }
 
     public function edit($id)
     {
         $punto = PuntoEncuentro::findOrFail($id);
-        return view('puntosEncuentro.editar', compact('punto'));
+        return view('admin.puntosEncuentro.editar', compact('punto'));
     }
 
     public function update(Request $request, $id)
