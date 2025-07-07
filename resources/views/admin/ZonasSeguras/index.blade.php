@@ -89,7 +89,7 @@
                     <td>{{ $zona->nombre }}</td>
                     <td>{{ $zona->tipo_seguridad }}</td>
                     <td>{{ $zona->radio }}</td>
-                    <td>{{ $zona->latitud }} - {{ $zona->longitud }}</td>
+                    <td>{{ $zona->latitud }} {{ $zona->longitud }}</td>
                     <td>
                         <a href="{{ route('zonas-seguras.edit', $zona->id) }}" class="btn btn-warning btn-sm">
                             <i class="fas fa-edit"></i> Editar

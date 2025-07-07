@@ -34,6 +34,11 @@ Route::get('/zonas-seguras/vista-reporte', [ZonaSeguraController::class, 'vistaR
      ->name('zonas-seguras.vista-reporte');
 
 
+//solo imagen de las zonas seguras
+Route::get('/zonas-seguras/preview-mapa', [ZonaSeguraController::class, 'mostrarMapa']);
+
+     
+
 //RUTA FULLREST PARA ZONAS SEGURAS
 Route::resource('/admin/zonas-seguras', ZonaSeguraController::class);
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ZonaSegura;
 use Barryvdh\DomPDF\Facade\Pdf;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Http;
 
 
 
@@ -127,20 +128,85 @@ public function vistaReporte()
     return view('admin.ZonasSeguras.vista-reporte', compact('zonas'));
 }
 
+
+
 public function generarReporte(Request $request)
 {
     $zonas = ZonaSegura::all();
-    $imagenMapa = $request->input('imagenMapa');
 
-    $qrImage = \QrCode::format('png')
-                ->size(120)
-                ->generate(route('zonas-seguras.vista-reporte'));
+    // 1. Generar código QR
+    $qrPng = QrCode::format('png')
+        ->size(120)
+        ->generate(route('zonas-seguras.vista-reporte'));
 
-    $qrBase64 = base64_encode($qrImage);
+    $qrBase64 = 'data:image/png;base64,' . base64_encode($qrPng);
 
-    return \PDF::loadView('admin.ZonasSeguras.reporte-pdf', compact('zonas', 'imagenMapa', 'qrBase64'))
-               ->stream('reporte_zonas_seguras.pdf');
+    // 2. Agrupar marcadores por tipo de seguridad (colores personalizados)
+    $colores = [
+        'refugio' => 'red',
+        'evacuacion' => 'green',
+        'centro_salud' => 'blue'
+    ];
+
+    $marcadoresPorTipo = '';
+    foreach ($colores as $tipo => $color) {
+        $grupo = $zonas->where('tipo_seguridad', $tipo)->map(fn($z) => "{$z->latitud},{$z->longitud}")->implode('|');
+        if ($grupo) {
+            $marcadoresPorTipo .= "&markers=color:{$color}|" . urlencode($grupo);
+        }
+    }
+
+    // 3. Generar URL del mapa estático
+    $mapUrl = "https://maps.googleapis.com/maps/api/staticmap?"
+            . "size=600x400"
+            . "&zoom=10"
+            . "&maptype=roadmap"
+            . $marcadoresPorTipo
+            . "&key=AIzaSyA9nnzLcrO4AqCmrDpuYGAToZXbidJcrlo";
+
+    // 4. Obtener imagen desde Google y codificarla
+    $mapImage = Http::get($mapUrl)->body();
+    $mapBase64 = 'data:image/png;base64,' . base64_encode($mapImage);
+
+    // 5. Generar y descargar PDF
+    return Pdf::loadView('admin.ZonasSeguras.reporte-pdf', compact('zonas', 'mapBase64', 'qrBase64'))
+              ->setPaper('A4', 'portrait')
+              ->download('reporte_zonas_seguras_' . now()->format('Ymd_His') . '.pdf');
 }
+
+
+
+public function mostrarMapa()
+{
+    $zonas = ZonaSegura::all();
+    $marcadores = '';
+
+    foreach ($zonas as $zona) {
+        if ($zona->latitud && $zona->longitud) {
+            $latLng = "{$zona->latitud},{$zona->longitud}";
+            $marcadores .= "&markers=color:red|" . urlencode($latLng);
+        }
+    }
+
+    $mapUrl = "https://maps.googleapis.com/maps/api/staticmap?"
+            . "size=600x400"
+            . "&zoom=10"
+            . "&maptype=roadmap"
+            . $marcadores
+            . "&key=" . env('GOOGLE_MAPS_KEY'); // Usa tu .env para seguridad
+
+    $response = Http::get($mapUrl);
+
+    if (!$response->successful()) {
+        return response("No se pudo generar el mapa. Código: " . $response->status(), 500);
+    }
+
+    return response($response->body(), 200)
+        ->header('Content-Type', 'image/png');
+}
+
+
+
 
 
 }
