@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ZonaSeguraController;
+
 
 
 
@@ -23,3 +25,6 @@ Route::post('/verify_email', [AuthController::class, 'verificarCodigo'])->name('
 
 
 
+
+//RUTA FULLREST PARA ZONAS SEGURAS
+Route::resource('/admin/zonas-seguras', ZonaSeguraController::class);
