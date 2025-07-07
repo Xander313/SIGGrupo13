@@ -1,6 +1,4 @@
-@extends('layout.app')
 
-@section('contenido')
 <h1>EDITAR PUNTO DE ENCUENTRO</h1>
 <form action="{{ route('puntos-encuentro.update', $punto->id) }}" method="POST">
     @csrf
@@ -67,4 +65,3 @@
     }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=initMap"></script>
-@endsection
