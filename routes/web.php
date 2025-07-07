@@ -23,7 +23,13 @@ Route::get('/verify_email', function () {
 
 Route::post('/verify_email', [AuthController::class, 'verificarCodigo'])->name('verify_email_post');
 
+//RUTA PARA LA GENRACION DE REPORTE EN PDF DE ZONAS SEGURAS
+Route::get('/zonas-seguras/create-report', [ZonaSeguraController::class, 'generarReporte'])
+     ->name('zonas-seguras.reporte');
 
+// Vista previa del reporte con mapa interactivo
+Route::get('/zonas-seguras/vista-reporte', [ZonaSeguraController::class, 'vistaReporte'])
+     ->name('zonas-seguras.vista-reporte');
 
 
 //RUTA FULLREST PARA ZONAS SEGURAS

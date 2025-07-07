@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ZonaSegura;
+use Barryvdh\DomPDF\Facade\Pdf;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
+
+
 
 
 
@@ -111,5 +116,31 @@ class ZonaSeguraController extends Controller
         return redirect()->route('zonas-seguras.index')
             ->with('success', 'Zona eliminada correctamente ✅');
     }
+
+
+
+    //FUNCION PARA LA GENERACION DE REPORTES
+
+public function vistaReporte()
+{
+    $zonas = ZonaSegura::all();
+    return view('admin.ZonasSeguras.vista-reporte', compact('zonas'));
+}
+
+public function generarReporte(Request $request)
+{
+    $zonas = ZonaSegura::all();
+    $imagenMapa = $request->input('imagenMapa');
+
+    $qrImage = \QrCode::format('png')
+                ->size(120)
+                ->generate(route('zonas-seguras.vista-reporte'));
+
+    $qrBase64 = base64_encode($qrImage);
+
+    return \PDF::loadView('admin.ZonasSeguras.reporte-pdf', compact('zonas', 'imagenMapa', 'qrBase64'))
+               ->stream('reporte_zonas_seguras.pdf');
+}
+
 
 }

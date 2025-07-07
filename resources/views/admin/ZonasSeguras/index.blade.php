@@ -55,6 +55,10 @@
     <a href="{{ route('zonas-seguras.create') }}" class="btn btn-success mb-3">
         <i class="fas fa-plus-circle"></i> Nueva Zona Segura
     </a>
+    <a href="{{ route('zonas-seguras.vista-reporte') }}" class="btn btn-primary mb-3">
+        <i class="fas fa-map"></i> Vista previa del reporte
+    </a>
+
 
     @if(session('success'))
         <script>
