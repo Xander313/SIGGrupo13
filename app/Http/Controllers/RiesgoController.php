@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 
 use App\Models\Riesgo;
 
 class RiesgoController extends Controller
+
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +26,7 @@ class RiesgoController extends Controller
     public function create()
     {
         //
-        return view('ZonasRiesgo.nuevo');
+        return view('admin.ZonasRiesgo.nuevo');
     }
 
     /**

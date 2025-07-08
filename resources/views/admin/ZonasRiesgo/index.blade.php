@@ -1,6 +1,13 @@
-
+    <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
+    
+    <!-- Bootstrap CSS & JS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <br>
-<h1 class="text-center">Listado de Predios</h1>
+<h1 class="text-center">Listado de Zonas de Riesgo</h1>
 <div class="container mt-4">
     <div class="mx-auto" style="max-width: 1000px;">
         <div class="text-right">

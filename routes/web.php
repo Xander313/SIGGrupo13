@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ZonaSeguraController;
 use App\Http\Controllers\PuntoEncuentroController;
-
+use App\Http\Controllers\RiesgoController;
 
 
 
@@ -61,4 +61,4 @@ Route::prefix('admin')->group(function() {
 });
 
 ////RUTAS LAS ZONAS DE RIESGO
-Route::resource('ZonasRiesgo',RiesgoController::class);
+Route::resource('/admin/ZonasRiesgo',RiesgoController::class);
