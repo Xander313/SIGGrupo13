@@ -6,6 +6,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ZonaSeguraController;
 use App\Http\Controllers\PuntoEncuentroController;
 use App\Http\Controllers\RiesgoController;
+use App\Http\Controllers\UsuarioController;
+
+
 
 
 
@@ -43,6 +46,12 @@ Route::get('/zonas-seguras/preview-mapa', [ZonaSeguraController::class, 'mostrar
 Route::resource('/admin/zonas-seguras', ZonaSeguraController::class);
 
 
+//RUTA RESTFULL PARA USUARIOS
+Route::get('usuario/zonas-seguras/vista-reporte', [UsuarioController::class, 'vistaReporte'])
+     ->name('usuario-zonas-seguras.vista-reporte');
+
+
+
 
 
 ///rita para los puntos de encuentro
@@ -62,3 +71,6 @@ Route::prefix('admin')->group(function() {
 
 ////RUTAS LAS ZONAS DE RIESGO
 Route::resource('/admin/ZonasRiesgo',RiesgoController::class);
+
+
+
