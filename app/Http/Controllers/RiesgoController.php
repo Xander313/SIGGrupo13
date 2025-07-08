@@ -25,6 +25,7 @@ class RiesgoController extends Controller
     public function create()
     {
         //
+        return view('ZonasRiesgo.nuevo');
     }
 
     /**
@@ -33,6 +34,22 @@ class RiesgoController extends Controller
     public function store(Request $request)
     {
         //
+        $datos=[
+            'nombre'=> $request->nombre,
+            'descripcion'=> $request->descripcion,
+            'nivel'=> $request->nivel,
+            'latitud1'=> $request->latitud1,
+            'longitud1'=> $request->longitud1,
+            'latitud2'=> $request->latitud2,
+            'longitud2'=> $request->longitud2,
+            'latitud3'=> $request->latitud3,
+            'longitud3'=> $request->longitud3,
+            'latitud4'=> $request->latitud4,
+            'longitud4'=> $request->longitud4
+        ];
+        Riesgo::create($datos);
+         // Pasar mensaje a la vista con nombre 'message'
+        return redirect()->route('ZonasRiesgo.index')->with('message', 'Zona creada exitosamente');
     }
 
     /**
