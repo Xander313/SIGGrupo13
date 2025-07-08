@@ -1,3 +1,6 @@
+@extends('layouts.appAdmin')
+@section('content')
+
 <div class="container">
     <h1 class="mb-4">Detalles del Punto de Encuentro</h1>
     
@@ -59,3 +62,5 @@
     }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDV-hhnGIiWpn19hxGsr3NpUv7yFXaqFCU&callback=initMap"></script>
+
+@endsection

@@ -1,3 +1,6 @@
+@extends('layouts.appAdmin')
+@section('content')
+
 <div class="container">
     <h1 class="text-center mb-4">Puntos de Encuentro</h1>
     
@@ -63,3 +66,5 @@
         </table>
     </div>
 </div>
+
+@endsection

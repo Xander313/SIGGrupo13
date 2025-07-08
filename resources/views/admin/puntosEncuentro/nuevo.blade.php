@@ -1,3 +1,6 @@
+@extends('layouts.appAdmin')
+@section('content')
+
 <h1>NUEVO PUNTO DE ENCUENTRO</h1>
 <form action="{{ route('admin.puntos-encuentro.store') }}" method="POST">
     @csrf
@@ -125,3 +128,5 @@
     }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDV-hhnGIiWpn19hxGsr3NpUv7yFXaqFCU&callback=initMap"></script>
+
+@endsection
