@@ -1,3 +1,6 @@
+@extends('layouts.appAdmin')
+
+@section('content')
     <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
     
@@ -63,3 +66,4 @@
         </div>
     </div>
 </div>
+@endsection

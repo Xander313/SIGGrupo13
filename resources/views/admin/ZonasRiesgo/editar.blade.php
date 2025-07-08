@@ -1,4 +1,7 @@
-    <!-- jQuery -->
+@extends('layouts.appAdmin')
+
+@section('content')
+  <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
     
     <!-- Bootstrap CSS & JS -->
@@ -245,3 +248,4 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDV-hhnGIiWpn19hxGsr3NpUv7yFXaqFCU&callback=initMap">
 </script>
 
+@endsection
