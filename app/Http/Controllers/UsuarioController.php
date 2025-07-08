@@ -64,6 +64,11 @@ class UsuarioController extends Controller
     }
 
 
+    public function inicio()
+    {
+        return view('user.inicio');
+    }
+
     public function vistaReporte()
     {
         $zonas = ZonaSegura::all();

@@ -17,9 +17,26 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/loginIn', [AuthController::class, 'sesionInicada'])->name('loginIn');
+
+
+// rutas para los usuarios
+
+// En tus rutas (web.php):
+Route::get('/user/inicio', [UsuarioController::class, 'inicio'])
+    ->name('user.inicio');
+
+
+
+
+Route::get('/login', [AuthController::class, 'iniciarSesion'])->name('login');
+
+
+Route::post('/loginIn', [AuthController::class, 'sesionInicada'])->name('loginIn');
+
 Route::post('/verify-email', [AuthController::class, 'verifyEmail']) -> name('verifyEmail');
+
 Route::get('/registro', [AuthController::class, 'showRegistro'])->name('registro_form');
+
 Route::post('/registroAccion', [AuthController::class, 'registro'])->name('registro');
 
 Route::get('/verify_email', function () {

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -43,10 +44,43 @@ class AuthController extends Controller
     }
 
 
-    public function sesionInicada()
+
+    public function iniciarSesion (Request $request)
     {
-        return view('login');
+        return view('login'); 
+
     }
+
+
+    public function sesionInicada(Request $request)
+{
+    // Validar los datos del formulario
+    $credentials = $request->validate([
+        'correoUsuario' => 'required|email',
+        'passwordUsuario' => 'required|string',
+    ]);
+
+    // Buscar al usuario por email
+    $usuario = Usuario::where('email', $credentials['correoUsuario'])->first();
+
+    // Verificar si el usuario existe y la contraseña coincide (validación manual)
+    if ($usuario && Hash::check($credentials['passwordUsuario'], $usuario->contraseña)) {
+        // Guardar manualmente los datos del usuario en la sesión
+        $request->session()->put('usuario_autenticado', true);
+        $request->session()->put('usuario_id', $usuario->id);
+        $request->session()->put('usuario_nombre', $usuario->nombre);
+        
+        // Redirigir a la vista de inicio
+        return redirect()->route('user.inicio');
+    }
+
+    // Si la autenticación falla
+    return back()->withErrors([
+        'correoUsuario' => 'Las credenciales no coinciden con nuestros registros.',
+    ])->onlyInput('correoUsuario');
+}
+
+
 
     public function showRegistro()
     {
