@@ -1,14 +1,6 @@
 @extends('layouts.appAdmin')
 
 @section('content')
-  <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
-    
-    <!-- Bootstrap CSS & JS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- SweetAlert2 CDN -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <h1>Editar Zona de Riesgo</h1>
 <div class="row">
