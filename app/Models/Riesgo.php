@@ -9,9 +9,15 @@ class Riesgo extends Model
     //
     protected $fillable = [
         'nombre',
-        'radio',
-        'latitud',
-        'longitud',
-        'tipo_seguridad',
+        'descripcion',
+        'nivel',
+        'latitud1',
+        'longitud1',
+        'latitud2',
+        'longitud2',
+        'latitud3',
+        'longitud3',
+        'latitud4',
+        'longitud4',
     ];
 }
