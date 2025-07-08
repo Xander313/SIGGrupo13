@@ -16,9 +16,13 @@
 <body>
 
     <h2>Reporte de Zonas Seguras</h2>
+    @php
+        \Carbon\Carbon::setLocale('es');
+    @endphp
     <p style="text-align: center; font-size: 12px; margin-bottom: 20px;">
-        Generado el {{ \Carbon\Carbon::now()->format('d/m/Y') }}
+        Generado el {{ \Carbon\Carbon::now()->translatedFormat('l d \d\e F \d\e Y') }}
     </p>
+
 
     @if($qrBase64)
         <div class="qr">
