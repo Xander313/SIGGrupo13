@@ -6,39 +6,56 @@
 
     <form method="POST" action="{{ route('zonas-seguras.reporte') }}">
         @csrf
-        <button type="submit" class="btn btn-danger mt-4">
-            <i class="fas fa-file-pdf"></i> Generar PDF del Reporte
+        <input type="hidden" name="imagenMapa" id="imagenMapa">
+
+        <button type="button" id="btnGenerarPDF" class="btn btn-danger mt-4">
+            <i class="fas fa-file-pdf"></i> Generar reporte en PDF
         </button>
+
     </form>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-<!-- Leaflet core -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_KEY') }}&callback=initMap" async defer></script>
 <script>
-    const zonas = @json($zonas);
-    const map = L.map('mapa').setView([-0.937, -78.616], 7);
-
-    // Mapa base (OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    zonas.forEach(zona => {
-        const lat = parseFloat(zona.latitud);
-        const lng = parseFloat(zona.longitud);
-        const radio = parseFloat(zona.radio);
-
-        L.marker([lat, lng])
-            .addTo(map)
-            .bindPopup(zona.nombre);
-
-        L.circle([lat, lng], {
-            radius: radio,
-            color: '#007bff',
-            fillColor: '#007bff',
-            fillOpacity: 0.2
-        }).addTo(map);
+function initMap() {
+    const map = new google.maps.Map(document.getElementById('mapa'), {
+        center: { lat: -0.937, lng: -78.616 },
+        zoom: 7
     });
+
+    const zonas = @json($zonas);
+
+    zonas.forEach(z => {
+        const marker = new google.maps.Marker({
+            position: { lat: parseFloat(z.latitud), lng: parseFloat(z.longitud) },
+            map,
+            title: z.nombre
+        });
+
+        new google.maps.Circle({
+            strokeColor: '#007bff',
+            strokeOpacity: 1,
+            strokeWeight: 1,
+            fillColor: '#007bff',
+            fillOpacity: 0.2,
+            map,
+            center: marker.getPosition(),
+            radius: parseFloat(z.radio)
+        });
+    });
+
+    // ✅ Captura el mapa después de renderizar
+    document.getElementById('btnGenerarPDF').addEventListener('click', function () {
+        html2canvas(document.getElementById('mapa')).then(canvas => {
+            const imagenBase64 = canvas.toDataURL('image/png');
+            document.getElementById('imagenMapa').value = imagenBase64;
+            this.closest('form').submit();
+        }).catch(error => {
+            console.error('Error al capturar el mapa:', error);
+            alert('No se pudo capturar el mapa.');
+        });
+    });
+}
+
 </script>

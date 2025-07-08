@@ -26,7 +26,7 @@ Route::get('/verify_email', function () {
 Route::post('/verify_email', [AuthController::class, 'verificarCodigo'])->name('verify_email_post');
 
 //RUTA PARA LA GENRACION DE REPORTE EN PDF DE ZONAS SEGURAS
-Route::get('/zonas-seguras/create-report', [ZonaSeguraController::class, 'generarReporte'])
+Route::post('/zonas-seguras/create-report', [ZonaSeguraController::class, 'generarReporte'])
      ->name('zonas-seguras.reporte');
 
 // Vista previa del reporte con mapa interactivo
