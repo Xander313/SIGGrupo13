@@ -1,3 +1,7 @@
+    
+@extends('layouts.appAdmin')
+
+@section('content')
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
     
@@ -16,7 +20,7 @@
             <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre de la zona " required class="form-control">
             <br>
             <label for=""><b>Descripción:</b></label>
-            <input type="text" name="clave" id="clave" placeholder="Ingrese la descripcion para esta zona" required class="form-control" >
+            <input type="text" name="descripcion" id="descripcion" placeholder="Ingrese la descripcion para esta zona" required class="form-control" >
             <br>
             <div class="mb-3">
                 <label for="nivel" class="form-label"><b>Nivel:</b></label>
@@ -231,3 +235,4 @@
 <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDV-hhnGIiWpn19hxGsr3NpUv7yFXaqFCU&callback=initMap">
 </script>
+@endsection

@@ -11,25 +11,25 @@
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <form action="{{ route('ZonasRiesgo.update', $zona->id) }}" method="POST">
+        <form action="{{ route('ZonasRiesgo.update', $riesgos->id) }}" method="POST">
             @csrf
             @method('PUT')
 
             <label for="nombre"><b>Nombre:</b></label>
-            <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $zona->nombre) }}" placeholder="Ingrese el nombre de la zona" required class="form-control">
+            <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $riesgos->nombre) }}" placeholder="Ingrese el nombre de la zona" required class="form-control">
             <br>
 
-            <label for="clave"><b>Descripción:</b></label>
-            <input type="number" name="clave" id="clave" value="{{ old('clave', $zona->clave) }}" placeholder="Ingrese la descripción para esta zona" required class="form-control">
+            <label for="descripcion"><b>Descripción:</b></label>
+            <input type="text" name="descripcion" id="descripcion" value="{{ old('descripcion', $riesgos->descripcion) }}" placeholder="Ingrese la descripción para esta zona" required class="form-control">
             <br>
 
             <div class="mb-3">
-                <label for="nivel" class="form-label"><b>Nivel:</b></label>
+                <label for="nivel" class="form-label"><b>Nivel de Riesgo:</b></label>
                 <select class="form-select" name="nivel" id="nivel" required>
-                    <option value="" disabled {{ old('nivel', $zona->nivel) ? '' : 'selected' }}>Seleccione un nivel de riesgo</option>
-                    <option value="Alto" {{ old('nivel', $zona->nivel) == 'Alto' ? 'selected' : '' }}>ALTO</option>
-                    <option value="Medio" {{ old('nivel', $zona->nivel) == 'Medio' ? 'selected' : '' }}>MEDIO</option>
-                    <option value="Bajo" {{ old('nivel', $zona->nivel) == 'Bajo' ? 'selected' : '' }}>BAJO</option>
+                    <option value="" disabled {{ old('nivel', $riesgos->nivel) ? '' : 'selected' }}>Seleccione un nivel de riesgo</option>
+                    <option value="Alto" {{ old('nivel', $riesgos->nivel) == 'Alto' ? 'selected' : '' }}>ALTO</option>
+                    <option value="Medio" {{ old('nivel', $riesgos->nivel) == 'Medio' ? 'selected' : '' }}>MEDIO</option>
+                    <option value="Bajo" {{ old('nivel', $riesgos->nivel) == 'Bajo' ? 'selected' : '' }}>BAJO</option>
                 </select>
             </div>
 
@@ -38,9 +38,9 @@
                 <div class="col-md-5">
                     <label><b>COORDENADA N°1</b></label><br><br>
                     <label for="latitud1"><b>Latitud</b></label><br>
-                    <input type="number" step="any" name="latitud1" id="latitud1" value="{{ old('latitud1', $zona->latitud1) }}" class="form-control" readonly placeholder="Seleccione la latitud en el mapa">
+                    <input type="number" step="any" name="latitud1" id="latitud1" value="{{ old('latitud1', $riesgos->latitud1) }}" class="form-control" readonly placeholder="Seleccione la latitud en el mapa">
                     <label for="longitud1"><b>Longitud</b></label><br>
-                    <input type="number" step="any" name="longitud1" id="longitud1" value="{{ old('longitud1', $zona->longitud1) }}" class="form-control" readonly placeholder="Seleccione la longitud en el mapa">
+                    <input type="number" step="any" name="longitud1" id="longitud1" value="{{ old('longitud1', $riesgos->longitud1) }}" class="form-control" readonly placeholder="Seleccione la longitud en el mapa">
                     <br>
                 </div>
                 <div class="col-md-7">
@@ -54,9 +54,9 @@
                 <div class="col-md-5">
                     <label><b>COORDENADA N°2</b></label><br><br>
                     <label for="latitud2"><b>Latitud</b></label><br>
-                    <input type="number" step="any" name="latitud2" id="latitud2" value="{{ old('latitud2', $zona->latitud2) }}" class="form-control" readonly placeholder="Seleccione la latitud en el mapa">
+                    <input type="number" step="any" name="latitud2" id="latitud2" value="{{ old('latitud2', $riesgos->latitud2) }}" class="form-control" readonly placeholder="Seleccione la latitud en el mapa">
                     <label for="longitud2"><b>Longitud</b></label><br>
-                    <input type="number" step="any" name="longitud2" id="longitud2" value="{{ old('longitud2', $zona->longitud2) }}" class="form-control" readonly placeholder="Seleccione la longitud en el mapa">
+                    <input type="number" step="any" name="longitud2" id="longitud2" value="{{ old('longitud2', $riesgos->longitud2) }}" class="form-control" readonly placeholder="Seleccione la longitud en el mapa">
                     <br>
                 </div>
                 <div class="col-md-7">
@@ -70,9 +70,9 @@
                 <div class="col-md-5">
                     <label><b>COORDENADA N°3</b></label><br><br>
                     <label for="latitud3"><b>Latitud</b></label><br>
-                    <input type="number" step="any" name="latitud3" id="latitud3" value="{{ old('latitud3', $zona->latitud3) }}" class="form-control" readonly placeholder="Seleccione la latitud en el mapa">
+                    <input type="number" step="any" name="latitud3" id="latitud3" value="{{ old('latitud3', $riesgos->latitud3) }}" class="form-control" readonly placeholder="Seleccione la latitud en el mapa">
                     <label for="longitud3"><b>Longitud</b></label><br>
-                    <input type="number" step="any" name="longitud3" id="longitud3" value="{{ old('longitud3', $zona->longitud3) }}" class="form-control" readonly placeholder="Seleccione la longitud en el mapa">
+                    <input type="number" step="any" name="longitud3" id="longitud3" value="{{ old('longitud3', $riesgos->longitud3) }}" class="form-control" readonly placeholder="Seleccione la longitud en el mapa">
                     <br>
                 </div>
                 <div class="col-md-7">
@@ -86,9 +86,9 @@
                 <div class="col-md-5">
                     <label><b>COORDENADA N°4</b></label><br><br>
                     <label for="latitud4"><b>Latitud</b></label><br>
-                    <input type="number" step="any" name="latitud4" id="latitud4" value="{{ old('latitud4', $zona->latitud4) }}" class="form-control" readonly placeholder="Seleccione la latitud en el mapa">
+                    <input type="number" step="any" name="latitud4" id="latitud4" value="{{ old('latitud4', $riesgos->latitud4) }}" class="form-control" readonly placeholder="Seleccione la latitud en el mapa">
                     <label for="longitud4"><b>Longitud</b></label><br>
-                    <input type="number" step="any" name="longitud4" id="longitud4" value="{{ old('longitud4', $zona->longitud4) }}" class="form-control" readonly placeholder="Seleccione la longitud en el mapa">
+                    <input type="number" step="any" name="longitud4" id="longitud4" value="{{ old('longitud4', $riesgos->longitud4) }}" class="form-control" readonly placeholder="Seleccione la longitud en el mapa">
                     <br>
                 </div>
                 <div class="col-md-7">

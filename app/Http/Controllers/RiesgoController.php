@@ -17,7 +17,7 @@ class RiesgoController extends Controller
     {
         //
         $riesgos=Riesgo::all();
-        return view('ZonasRiesgo.index',compact('riesgos'));
+        return view('admin.ZonasRiesgo.index',compact('riesgos'));
     }
 
     /**
@@ -68,7 +68,7 @@ class RiesgoController extends Controller
     {
         //
         $riesgos = Riesgo::findOrFail($id); 
-        return view('ZonasRiesgo.editar', compact('riesgos'));
+        return view('admin.ZonasRiesgo.editar', compact('riesgos'));
     }
 
     /**

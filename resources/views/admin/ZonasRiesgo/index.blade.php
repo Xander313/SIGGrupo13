@@ -31,15 +31,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($riesgo as $riesgoTemporal)
+                    @forelse($riesgos as $riesgoTemporal)
                     <tr>
                         <td>{{ $riesgoTemporal->nombre }}</td>
                         <td>{{ $riesgoTemporal->descripcion }}</td>
                         <td>{{ $riesgoTemporal->nivel }}</td>
-                        <td>Latitud: {{ $riesgoTemporal->latitud1 }}<br>Longitud: {{ $predioTemporal->longitud1 }}</td>
-                        <td>Latitud: {{ $riesgoTemporal->latitud2 }}<br>Longitud: {{ $predioTemporal->longitud2 }}</td>
-                        <td>Latitud: {{ $riesgoTemporal->latitud3 }}<br>Longitud: {{ $predioTemporal->longitud3 }}</td>
-                        <td>Latitud: {{ $riesgoTemporal->latitud4 }}<br>Longitud: {{ $predioTemporal->longitud4 }}</td>
+                        <td>Latitud: {{ $riesgoTemporal->latitud1 }}<br>Longitud: {{ $riesgoTemporal->longitud1 }}</td>
+                        <td>Latitud: {{ $riesgoTemporal->latitud2 }}<br>Longitud: {{ $riesgoTemporal->longitud2 }}</td>
+                        <td>Latitud: {{ $riesgoTemporal->latitud3 }}<br>Longitud: {{ $riesgoTemporal->longitud3 }}</td>
+                        <td>Latitud: {{ $riesgoTemporal->latitud4 }}<br>Longitud: {{ $riesgoTemporal->longitud4 }}</td>
                         <td class="text-center">
                             <a href="{{ route('ZonasRiesgo.edit', $riesgoTemporal->id) }}" class="btn btn-sm btn-primary me-1">Editar</a>
 
