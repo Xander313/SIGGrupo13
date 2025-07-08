@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\Riesgo;
+
 class RiesgoController extends Controller
 {
     /**
@@ -13,6 +15,8 @@ class RiesgoController extends Controller
     public function index()
     {
         //
+        $riesgo=Riesgo::all();
+        return view('ZonasRiesgo.index',compact('riesgos'));
     }
 
     /**
