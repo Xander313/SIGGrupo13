@@ -1,4 +1,8 @@
 
+
+@extends('layouts.appAdmin')
+@section('content')
+
 <div class="container">
     <h2 class="mb-4">Vista previa del Reporte</h2>
 
@@ -58,3 +62,5 @@ function initMap() {
 }
 
 </script>
+
+@endsection
