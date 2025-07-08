@@ -59,3 +59,6 @@ Route::prefix('admin')->group(function() {
              'destroy' => 'admin.puntos-encuentro.destroy'
          ]);
 });
+
+////RUTAS LAS ZONAS DE RIESGO
+Route::resource('ZonasRiesgo',RiesgoController::class);
