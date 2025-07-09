@@ -1,4 +1,8 @@
 
+@extends('layouts.appLogin')
+@section('content')
+
+
 <div class="auth-container">
     <h2 class="form-title">Registro de Usuario</h2>
 
@@ -41,3 +45,6 @@
     </div>
 </div>
 
+
+
+@endsection

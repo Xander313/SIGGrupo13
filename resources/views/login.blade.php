@@ -1,3 +1,8 @@
+
+@extends('layouts.appLogin')
+@section('content')
+
+
 <div class="auth-container">
     <h2 class="form-title">Iniciar Sesión</h2>
 
@@ -23,6 +28,9 @@
     </form>
 
     <div class="toggle-form mt-2">
-        ¿No tienes cuenta? <a href="{{ route('registro_form') }}">Regístrate aquí</a>
+        <p>¿No tienes cuenta?</p> <a href="{{ route('registro_form') }}">Regístrate aquí</a>
     </div>
 </div>
+
+
+@endsection

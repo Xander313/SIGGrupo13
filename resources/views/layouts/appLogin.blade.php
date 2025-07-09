@@ -100,32 +100,30 @@
         <div class="container-xxl position-relative p-0">
             <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
                 <a href="" class="navbar-brand p-0">
-                    <h1 class="m-0"><i class="fa-solid fa-location-dot"></i>Admin<span class="fs-5"> Zone</span></h1>
+                    <h1 class="m-0"><i class="fa-solid fa-magnifying-glass-location"></i> Login<span class="fs-5"> Zone </span></h1>
                     <!-- <img src="img/logo.png" alt="Logo"> -->
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav ms-auto py-0">
-                        <a href="{{ route('zonas-seguras.index') }}" class="nav-item nav-link {{ request()->routeIs('zonas-seguras.index') ? 'active' : '' }}">Zonas Seguras</a>
-                        <a href="{{ route('ZonasRiesgo.index') }}" class="nav-item nav-link {{ request()->routeIs('ZonasRiesgo.index') ? 'active' : '' }}">Zonas de Riesgo</a>
-                        <a href="{{ route('admin.puntos-encuentro.index') }}" class="nav-item nav-link {{ request()->routeIs('admin.puntos-encuentro.index') ? 'active' : '' }}">Puntos de Encuentro</a>
-                    </div>
-                </div>
+
             </nav>
 
             <div class="container-xxl py-5 bg-primary hero-header mb-5">
                 <div class="container my-5 py-5 px-lg-5">
-                    <div class="row g-5 py-5">
+                   
 
-                    </div>
+                        
+                            @yield('content')
+
+                        
+                    
                 </div>
             </div>
         </div>
         <!-- Navbar & Hero End -->
 
-    @yield('content')
+    
 
         
 
@@ -231,27 +229,27 @@
 
 
 
-    @if (session('success'))
-    <script>
-        Swal.fire({
-            title: '¡ÉXITO!',
-            text: '{{ session('success') }}',
-            icon: 'success',
-            confirmButtonText: 'OK'
-        });
-    </script>
-    @endif
+  @if (session('success'))
+  <script>
+      Swal.fire({
+          title: '¡ÉXITO!',
+          text: '{{ session('success') }}',
+          icon: 'success',
+          confirmButtonText: 'OK'
+      });
+  </script>
+  @endif
 
-    @if (session('error'))
-    <script>
-        Swal.fire({
-            title: '¡ERROR!',
-            text: '{{ session('error') }}',
-            icon: 'error',
-            confirmButtonText: 'OK'
-        });
-    </script>
-    @endif
+  @if (session('error'))
+  <script>
+      Swal.fire({
+          title: '¡ERROR!',
+          text: '{{ session('error') }}',
+          icon: 'error',
+          confirmButtonText: 'OK'
+      });
+  </script>
+  @endif
 
 </body>
 

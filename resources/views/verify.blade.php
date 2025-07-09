@@ -1,3 +1,9 @@
+
+
+@extends('layouts.appLogin')
+@section('content')
+
+
 <div class="auth-container">
     <h2 class="form-title">Verificación de Correo</h2>
 
@@ -16,3 +22,5 @@
         <button type="submit" class="btn">Verificar</button>
     </form>
 </div>
+
+@endsection

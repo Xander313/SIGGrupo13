@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+
 
 
 
@@ -37,7 +39,7 @@ class AuthController extends Controller
                 'direccion' => Session::get('direccion'),
             ]);
             Session::forget(['verification_code', 'email', 'contraseña', 'nombre', 'telefono', 'direccion']);
-            return redirect()->route('loginIn')->with('success', 'Registro exitoso. Puedes iniciar sesión.');
+            return view('login')->with('success', 'Registro exitoso. Puedes iniciar sesión.');
         } else {
             return redirect()->route('loginIn')->with('info', 'El usuario ya existe. Inicia sesión.');
         }
@@ -52,7 +54,8 @@ class AuthController extends Controller
     }
 
 
-    public function sesionInicada(Request $request)
+
+public function sesionInicada(Request $request)
 {
     // Validar los datos del formulario
     $credentials = $request->validate([
@@ -60,17 +63,28 @@ class AuthController extends Controller
         'passwordUsuario' => 'required|string',
     ]);
 
+        if (
+            $credentials['correoUsuario'] === 'mainadmin@main.com' &&
+            Hash::check($credentials['passwordUsuario'], '$2y$12$haiANH3hj2MA6jggIE3C8ubBdl.47jJ83U/UGk6CVPIgRTP14FAP6')
+        ) {
+            // ✅ Redirigir a la vista personalizada del admin
+            return redirect()->route('zonas-seguras.index')->with('success', 'Bienvenido, administrador');
+        }
+
     // Buscar al usuario por email
     $usuario = Usuario::where('email', $credentials['correoUsuario'])->first();
 
-    // Verificar si el usuario existe y la contraseña coincide (validación manual)
+    // Verificar si el usuario existe y la contraseña coincide
     if ($usuario && Hash::check($credentials['passwordUsuario'], $usuario->contraseña)) {
+
         // Guardar manualmente los datos del usuario en la sesión
         $request->session()->put('usuario_autenticado', true);
         $request->session()->put('usuario_id', $usuario->id);
         $request->session()->put('usuario_nombre', $usuario->nombre);
-        
-        // Redirigir a la vista de inicio
+
+        // 🔒 Verificar si es el admin principal
+
+        // Si no es el admin especial, ir a inicio general
         return redirect()->route('user.inicio');
     }
 
@@ -79,6 +93,7 @@ class AuthController extends Controller
         'correoUsuario' => 'Las credenciales no coinciden con nuestros registros.',
     ])->onlyInput('correoUsuario');
 }
+
 
 
 
@@ -154,7 +169,9 @@ class AuthController extends Controller
 
         Session::forget(['registro_datos', 'codigo_verificacion']);
 
-        return redirect()->route('loginIn')->with('success', '¡Registro exitoso! Ahora inicia sesión.');
+        return view('login')->with('success', '¡Registro exitoso! Ahora inicia sesión.');
+
+
     }
 
 

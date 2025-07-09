@@ -38,7 +38,6 @@
                         </div>
                         <div class="col-md-7">
                         <br>
-                            <div class="" id="mapa1" style="border:2px solid white; height:200px;width:100%"> </div>
 
                         </div>
                     </div>  
@@ -53,7 +52,6 @@
                         </div>
                         <div class="col-md-7">
                         <br>
-                            <div class="" id="mapa2" style="border:2px solid white; height:200px;width:100%"> </div>
 
                         </div>
                     </div>
@@ -68,7 +66,6 @@
                         </div>
                         <div class="col-md-7">
                         <br>
-                            <div class="" id="mapa3" style="border:2px solid white; height:200px;width:100%"> </div>
 
                         </div>
                     </div>
@@ -83,7 +80,6 @@
                         </div>
                         <div class="col-md-7">
                         <br>
-                            <div class="" id="mapa4" style="border:2px solid white; height:200px;width:100%"> </div>
 
                         </div>
                     </div>
@@ -114,126 +110,85 @@
                 <div id="mapa-poligono" style="height: 500px; width:100%; border:2px solid blue;"></div>
             </div>
         </div>
-        <script type="text/javascript">
-            var mapaPoligono;
+            </div>
+        </div>
+    </div>
+</div>
 
-            window.initMap = function () {
-                var latitud_longitud = new google.maps.LatLng(-0.9374805, -78.6161327);
 
-                // COORDENADA 1
-                var mapa1 = new google.maps.Map(document.getElementById('mapa1'), {
-                    center: latitud_longitud,
-                    zoom: 15,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                });
-                var marcador1 = new google.maps.Marker({
-                    position: latitud_longitud,
-                    map: mapa1,
-                    title: "Seleccione la coordenada 1",
-                    draggable: true
-                });
-                google.maps.event.addListener(marcador1, 'dragend', function (event) {
-                    document.getElementById("latitud1").value = this.getPosition().lat();
-                    document.getElementById("longitud1").value = this.getPosition().lng();
-                });
 
-                // COORDENADA 2
-                var mapa2 = new google.maps.Map(document.getElementById('mapa2'), {
-                    center: latitud_longitud,
-                    zoom: 15,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                });
-                var marcador2 = new google.maps.Marker({
-                    position: latitud_longitud,
-                    map: mapa2,
-                    title: "Seleccione la coordenada 2",
-                    draggable: true
-                });
-                google.maps.event.addListener(marcador2, 'dragend', function (event) {
-                    document.getElementById("latitud2").value = this.getPosition().lat();
-                    document.getElementById("longitud2").value = this.getPosition().lng();
-                });
+    <script type="text/javascript">
+        let mapaPoligono;
+        let marcadores = [];
+        let poligono = null;
 
-                // COORDENADA 3
-                var mapa3 = new google.maps.Map(document.getElementById('mapa3'), {
-                    center: latitud_longitud,
-                    zoom: 15,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                });
-                var marcador3 = new google.maps.Marker({
-                    position: latitud_longitud,
-                    map: mapa3,
-                    title: "Seleccione la coordenada 3",
-                    draggable: true
-                });
-                google.maps.event.addListener(marcador3, 'dragend', function (event) {
-                    document.getElementById("latitud3").value = this.getPosition().lat();
-                    document.getElementById("longitud3").value = this.getPosition().lng();
-                });
+        function initMap() {
+            const centroInicial = { lat: -0.9374805, lng: -78.6161327 };
 
-                // COORDENADA 4
-                var mapa4 = new google.maps.Map(document.getElementById('mapa4'), {
-                    center: latitud_longitud,
-                    zoom: 15,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                });
-                var marcador4 = new google.maps.Marker({
-                    position: latitud_longitud,
-                    map: mapa4,
-                    title: "Seleccione la coordenada 4",
-                    draggable: true
-                });
-                google.maps.event.addListener(marcador4, 'dragend', function (event) {
-                    document.getElementById("latitud4").value = this.getPosition().lat();
-                    document.getElementById("longitud4").value = this.getPosition().lng();
-                });
+            mapaPoligono = new google.maps.Map(document.getElementById("mapa-poligono"), {
+                zoom: 15,
+                center: centroInicial,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
 
-                // Mapa para el polígono
-                mapaPoligono = new google.maps.Map(document.getElementById("mapa-poligono"), {
-                    zoom: 15,
-                    center: latitud_longitud,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                });
-            };
+        mapaPoligono.addListener("click", function (event) {
+            if (marcadores.length >= 4) {
+                alert("Solo se permiten 4 puntos para definir la zona.");
+                return;
+            }
 
-            function graficarZona() {
-                var coordenada1 = new google.maps.LatLng(
-                    document.getElementById('latitud1').value,
-                    document.getElementById('longitud1').value
-                );
-                var coordenada2 = new google.maps.LatLng(
-                    document.getElementById('latitud2').value,
-                    document.getElementById('longitud2').value
-                );
-                var coordenada3 = new google.maps.LatLng(
-                    document.getElementById('latitud3').value,
-                    document.getElementById('longitud3').value
-                );
-                var coordenada4 = new google.maps.LatLng(
-                    document.getElementById('latitud4').value,
-                    document.getElementById('longitud4').value
-                );
+            const index = marcadores.length;
 
-                var coordenadas = [coordenada1, coordenada2, coordenada3, coordenada4];
+            const nuevoMarcador = new google.maps.Marker({
+                position: event.latLng,
+                map: mapaPoligono,
+                draggable: true,
+                label: `${index + 1}`
+            });
 
-                var poligono = new google.maps.Polygon({
+            actualizarInputsDeMarcador(index, event.latLng);
+
+            nuevoMarcador.addListener("dragend", function () {
+                const nuevaPos = this.getPosition();
+                actualizarInputsDeMarcador(index, nuevaPos);
+                actualizarPoligono();
+            });
+
+            marcadores.push(nuevoMarcador);
+            actualizarPoligono();
+        });
+
+        }
+
+        function actualizarPoligono() {
+            const coordenadas = marcadores.map(m => m.getPosition());
+
+            // Limpia el polígono anterior
+            if (poligono) {
+                poligono.setMap(null);
+            }
+
+            if (coordenadas.length >= 3) {
+                poligono = new google.maps.Polygon({
                     paths: coordenadas,
                     strokeColor: "#FF0000",
                     strokeOpacity: 0.8,
                     strokeWeight: 2,
                     fillColor: "#00FF00",
                     fillOpacity: 0.35,
+                    map: mapaPoligono
                 });
-
-                poligono.setMap(mapaPoligono);
             }
-        </script>
-        <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDV-hhnGIiWpn19hxGsr3NpUv7yFXaqFCU&callback=initMap">
-        </script>
-            </div>
-        </div>
-    </div>
-</div>
+        }
+
+        function actualizarInputsDeMarcador(index, latLng) {
+            const latInput = document.getElementById(`latitud${index + 1}`);
+            const lngInput = document.getElementById(`longitud${index + 1}`);
+            latInput.value = latLng.lat().toFixed(7);
+            lngInput.value = latLng.lng().toFixed(7);
+        }
+
+    </script>
+
 
 @endsection
