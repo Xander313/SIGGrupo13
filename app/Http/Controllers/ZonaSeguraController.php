@@ -131,27 +131,29 @@ public function vistaReporte()
 
 
 
-public function generarReporte(Request $request)
-{
-    $zonas = ZonaSegura::all();
 
-    // ✅ URL dinámica del reporte
-    $urlReporte = route('zonas-seguras.vista-reporte'); // genera la URL completa según el dominio
+   public function generarReporte(Request $request)
+    {
+        $tipoSeleccionado = $request->input('tipoSeleccionado');
 
-    // ✅ Generar QR con la URL real del entorno
-    $qrPng = \QrCode::format('png')
-        ->size(120)
-        ->generate($urlReporte);
+        $zonas = ($tipoSeleccionado && $tipoSeleccionado !== 'Todos')
+            ? ZonaSegura::where('tipo_seguridad', $tipoSeleccionado)->get()
+            : ZonaSegura::all();
 
-    $qrBase64 = 'data:image/png;base64,' . base64_encode($qrPng);
+        $urlReporte = route('zonas-seguras.vista-reporte'); // genera la URL completa según el dominio
 
-    // Lógica para imagen del mapa desde frontend
-    $imagenMapa = $request->input('imagenMapa');
+        $qrPng = \QrCode::format('png')
+            ->size(120)
+            ->generate($urlReporte);
 
-    return \PDF::loadView('admin.ZonasSeguras.reporte-pdf', compact('zonas', 'imagenMapa', 'qrBase64'))
-        ->setPaper('A4', 'portrait')
-        ->download('reporte_zonas_seguras_' . now()->format('Ymd_His') . '.pdf');
-}
+        $qrBase64 = 'data:image/png;base64,' . base64_encode($qrPng);
+        $imagenMapa = $request->input('imagenMapa');
+
+        return \PDF::loadView('admin.ZonasSeguras.reporte-pdf', compact('zonas', 'imagenMapa', 'qrBase64', 'tipoSeleccionado'))
+            ->setPaper('A4', 'portrait')
+            ->download('reporte_zonas_seguras_' . now()->format('Ymd_His') . '.pdf');
+    }
+
 
 
 }

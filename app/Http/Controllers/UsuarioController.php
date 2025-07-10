@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ZonaSegura;
-use App\Models\Riesgo;
 
 class UsuarioController extends Controller
 {
@@ -67,20 +66,13 @@ class UsuarioController extends Controller
 
     public function inicio()
     {
-        return view('user.inicio'); //bienvenida
+        return view('user.inicio');
     }
 
     public function vistaReporte()
     {
         $zonas = ZonaSegura::all();
-        return view('user.vista-report', compact('zonas')); // reporte previo para zonas segurea
-
-    }
-    public function vistaReporteR()
-    {
-        $zonas = Riesgo::all();
-        return view('user.vista-riesgo', compact('zonas')); // reporte previo para zonas ded riesgo
-
+        return view('user.vista-reporte', compact('zonas'));
     }
 
 
@@ -91,48 +83,24 @@ class UsuarioController extends Controller
 
     public function generarReporte(Request $request)
     {
-        $zonas = ZonaSegura::all();
+        $tipoSeleccionado = $request->input('tipoSeleccionado');
 
-        // ✅ URL dinámica del reporte
-        $urlReporte = route('usuario-zonas-seguras.vista-reporte'); // genera la URL completa según el dominio
+        $zonas = ($tipoSeleccionado && $tipoSeleccionado !== 'Todos')
+            ? ZonaSegura::where('tipo_seguridad', $tipoSeleccionado)->get()
+            : ZonaSegura::all();
 
-        // ✅ Generar QR con la URL real del entorno
+        $urlReporte = route('usuario-zonas-seguras.vista-reporte');
+
         $qrPng = \QrCode::format('png')
             ->size(120)
             ->generate($urlReporte);
 
         $qrBase64 = 'data:image/png;base64,' . base64_encode($qrPng);
-
-        // Lógica para imagen del mapa desde frontend
         $imagenMapa = $request->input('imagenMapa');
 
-        return \PDF::loadView('admin.ZonasSeguras.reporte-pdf', compact('zonas', 'imagenMapa', 'qrBase64'))
+        return \PDF::loadView('admin.ZonasSeguras.reporte-pdf', compact('zonas', 'imagenMapa', 'qrBase64', 'tipoSeleccionado'))
             ->setPaper('A4', 'portrait')
             ->download('reporte_zonas_seguras_' . now()->format('Ymd_His') . '.pdf');
-    }
-
-    ///ZONAS DE RIESGO////
-    public function generarReporteR(Request $request)
-
-    {
-        $riesgos = ZonasRiesgo::all(); // Modelo correspondiente
-
-        // URL dinámica del reporte
-        $urlReporte = route('usuario-zonas-riesgo.vista-reporte'); // Asegúrate que esta ruta esté definida
-
-        // ✅ Generar QR con la URL del entorno
-        $qrPng = \QrCode::format('png')
-            ->size(120)
-            ->generate($urlReporte);
-
-        $qrBase64 = 'data:image/png;base64,' . base64_encode($qrPng);
-
-        // Lógica para imagen del mapa capturada desde el frontend
-        $imagenMapa = $request->input('imagenMapa');
-
-        return \PDF::loadView('admin.ZonasRiesgo.reporte-pdf', compact('riesgos', 'imagenMapa', 'qrBase64'))
-            ->setPaper('A4', 'portrait')
-            ->download('reporte_zonas_riesgo_' . now()->format('Ymd_His') . '.pdf');
     }
 
 
