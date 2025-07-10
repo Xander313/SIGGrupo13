@@ -154,7 +154,4 @@ public function generarReporte(Request $request)
 }
 
 
-
-
-
 }

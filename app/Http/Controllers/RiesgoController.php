@@ -106,4 +106,31 @@ class RiesgoController extends Controller
     
         return redirect()->route('ZonasRiesgo.index')->with('success', 'Zona eliminada correctamente');
     }
+    public function vistaReporte()
+    {
+        $riesgos = Riesgo::all(); 
+        return view('admin.ZonasRiesgo.vista-riesgo', compact('riesgos'));
+    }
+
+    public function generarReporte(Request $request)
+    {
+        $riesgos = Riesgo::all();
+
+        //reporte
+        $urlReporte = route('ZonasRiesgo.vista-riesgo'); // C
+
+        // Generar QR con la URL
+        $qrPng = \QrCode::format('png')
+            ->size(120)
+            ->generate($urlReporte);
+
+        $qrBase64 = 'data:image/png;base64,' . base64_encode($qrPng);
+
+        // Captura de imagen del mapa 
+        $imagenMapa = $request->input('imagenMapa');
+
+        return \PDF::loadView('admin.ZonasRiesgo.reporte-pdf', compact('riesgos', 'imagenMapa', 'qrBase64'))
+            ->setPaper('A4', 'portrait')
+            ->download('reporte_zonas_riesgo_' . now()->format('Ymd_His') . '.pdf');
+    }
 }

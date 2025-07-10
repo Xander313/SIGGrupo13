@@ -60,8 +60,12 @@ Route::post('usuarios/zonas-seguras/create-report', [UsuarioController::class, '
      ->name('usuarios-zonas-seguras.reporte');
 
 
-//RUTA PARA LA GENRACION DE REPORTE EN PDF DE ZONAS DE ROESGO
+//RUTA PARA LA GENRACION DE REPORTE EN PDF DE ZONAS DE RiESGO
+Route::post('/zonas-riesgo/create-report', [RiesgoController::class, 'generarReporte'])
+     ->name('zonas-riesgo.reporte');
 
+Route::post('usuarios/zonas-riesgo/create-report', [UsuarioController::class, 'generarReporteR'])
+     ->name('usuarios-zonas-riesgo.reporte');
 
 //RUTA PARA LA GENRACION DE REPORTE EN PDF DE PUNTOS DE ENCUENTRO
 
@@ -79,10 +83,14 @@ Route::post('usuarios/zonas-seguras/create-report', [UsuarioController::class, '
 // Vista previa del reporte con mapa interactivo
 Route::get('/zonas-seguras/vista-reporte', [ZonaSeguraController::class, 'vistaReporte'])
      ->name('zonas-seguras.vista-reporte');
-
+//Vista previa del reporte con mapa interactivo Zonas de Riesgo
+Route::get('/zonas-riesgo/vista-reporte', [RiesgoController::class, 'vistaReporte'])
+     ->name('zonas-riesgo.vista-reporte');
 
 //solo imagen de las zonas seguras
 Route::get('/zonas-seguras/preview-mapa', [ZonaSeguraController::class, 'mostrarMapa']);
+//solo imagen de las zonas de riesgo
+Route::get('/zonas-riesgo/preview-mapa', [RiesgoController::class, 'mostrarMapa']);
 
      
 
@@ -93,6 +101,9 @@ Route::resource('/admin/zonas-seguras', ZonaSeguraController::class);
 //RUTA RESTFULL PARA USUARIOS
 Route::get('usuario/zonas-seguras/vista-reporte', [UsuarioController::class, 'vistaReporte'])
      ->name('usuario-zonas-seguras.vista-reporte');
+//RUTA RESTFULL PARA USUARIOS PARA ZONAS RIESGO 
+Route::get('usuario/zonas-riesgo/vista-riesgo', [UsuarioController::class, 'vistaReporteR'])
+     ->name('usuario-zonas-riesgo.vista-riesgo');
 
 
 

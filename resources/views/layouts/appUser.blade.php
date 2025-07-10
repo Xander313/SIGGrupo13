@@ -110,7 +110,7 @@
                     <div class="navbar-nav ms-auto py-0">
                         <a href="{{ url('/') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Cerrar sesión</a>
                         <a href="{{ route('usuario-zonas-seguras.vista-reporte') }}" class="nav-item nav-link {{ request()->routeIs('zonas-seguras.index') ? 'active' : '' }}">Zonas Seguras</a>
-
+                        <a href="{{ route('usuario-zonas-riesgo.vista-riesgo') }}" class="nav-item nav-link {{ request()->routeIs('zonas-riesgo.index') ? 'active' : '' }}">Zonas de Riesgo</a>
                     </div>
                 </div>
             </nav>
