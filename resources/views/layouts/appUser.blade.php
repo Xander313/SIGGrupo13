@@ -108,6 +108,8 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto py-0">
+                        <a href="{{ url('/') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Cerrar sesión</a>
+                        <a href="{{ route('usuario-zonas-seguras.vista-reporte') }}" class="nav-item nav-link {{ request()->routeIs('zonas-seguras.index') ? 'active' : '' }}">Zonas Seguras</a>
 
                     </div>
                 </div>
@@ -115,15 +117,13 @@
 
             <div class="container-xxl py-5 bg-primary hero-header mb-5">
                 <div class="container my-5 py-5 px-lg-5">
-                    <div class="row g-5 py-5">
-
-                    </div>
+    @yield('content')
+      
                 </div>
             </div>
         </div>
         <!-- Navbar & Hero End -->
 
-    @yield('content')
 
         
 

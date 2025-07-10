@@ -108,6 +108,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto py-0">
+                        <a href="{{ url('/') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Cerrar sesión</a>
                         <a href="{{ route('zonas-seguras.index') }}" class="nav-item nav-link {{ request()->routeIs('zonas-seguras.index') ? 'active' : '' }}">Zonas Seguras</a>
                         <a href="{{ route('ZonasRiesgo.index') }}" class="nav-item nav-link {{ request()->routeIs('ZonasRiesgo.index') ? 'active' : '' }}">Zonas de Riesgo</a>
                         <a href="{{ route('admin.puntos-encuentro.index') }}" class="nav-item nav-link {{ request()->routeIs('admin.puntos-encuentro.index') ? 'active' : '' }}">Puntos de Encuentro</a>

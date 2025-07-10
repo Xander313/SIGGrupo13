@@ -4,11 +4,11 @@
 @section('content')
 
 <div class="container">
-    <h2 class="mb-4">Vista previa del Reporte</h2>
+    <h2 style= "color: #fff" class="mb-4">Reporte de zonas seguras</h2>
 
     <div id="mapa" style="height: 500px; width: 100%; border: 1px solid #ccc;"></div>
 
-    <form method="POST" action="{{ route('zonas-seguras.reporte') }}">
+    <form method="POST" action="{{ route('usuarios-zonas-seguras.reporte') }}">
         @csrf
         <input type="hidden" name="imagenMapa" id="imagenMapa">
 

@@ -41,7 +41,7 @@ class AuthController extends Controller
             Session::forget(['verification_code', 'email', 'contraseña', 'nombre', 'telefono', 'direccion']);
             return view('login')->with('success', 'Registro exitoso. Puedes iniciar sesión.');
         } else {
-            return redirect()->route('loginIn')->with('info', 'El usuario ya existe. Inicia sesión.');
+            return redirect()->route('login')->with('info', 'El usuario ya existe. Inicia sesión.');
         }
     }
 
@@ -156,7 +156,7 @@ public function sesionInicada(Request $request)
         $datos = Session::get('registro_datos');
 
         if (Usuario::where('email', $datos['email'])->exists()) {
-            return redirect()->route('loginIn')->with('info', 'Ya existe un usuario con ese correo.');
+            return redirect()->route('login')->with('error', 'Ya existe un usuario con ese correo.');
         }
 
         Usuario::create([

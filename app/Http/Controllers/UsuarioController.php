@@ -75,4 +75,32 @@ class UsuarioController extends Controller
         return view('user.vista-reporte', compact('zonas'));
     }
 
+
+
+
+
+
+
+    public function generarReporte(Request $request)
+    {
+        $zonas = ZonaSegura::all();
+
+        // ✅ URL dinámica del reporte
+        $urlReporte = route('usuario-zonas-seguras.vista-reporte'); // genera la URL completa según el dominio
+
+        // ✅ Generar QR con la URL real del entorno
+        $qrPng = \QrCode::format('png')
+            ->size(120)
+            ->generate($urlReporte);
+
+        $qrBase64 = 'data:image/png;base64,' . base64_encode($qrPng);
+
+        // Lógica para imagen del mapa desde frontend
+        $imagenMapa = $request->input('imagenMapa');
+
+        return \PDF::loadView('admin.ZonasSeguras.reporte-pdf', compact('zonas', 'imagenMapa', 'qrBase64'))
+            ->setPaper('A4', 'portrait')
+            ->download('reporte_zonas_seguras_' . now()->format('Ymd_His') . '.pdf');
+    }
+
 }
