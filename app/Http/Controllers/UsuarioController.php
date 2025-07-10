@@ -99,11 +99,11 @@ class UsuarioController extends Controller
 
         $urlReporte = route('usuario-zonas-seguras.vista-reporte');
 
-        $qrPng = \QrCode::format('png')
-            ->size(120)
-            ->generate($urlReporte);
-
-        $qrBase64 = 'data:image/png;base64,' . base64_encode($qrPng);
+        $qrSvg = \QrCode::format('svg')
+        ->size(120)
+        ->generate($urlReporte);
+    
+        $qrBase64 = 'data:image/svg+xml;base64,' . base64_encode($qrSvg);
         $imagenMapa = $request->input('imagenMapa');
 
         return \PDF::loadView('admin.ZonasSeguras.reporte-pdf', compact('zonas', 'imagenMapa', 'qrBase64', 'tipoSeleccionado'))

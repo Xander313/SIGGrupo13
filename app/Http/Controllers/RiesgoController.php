@@ -128,13 +128,11 @@ class RiesgoController extends Controller
 
         $urlReporte = route('zonas-riesgo.vista-reporte');
 
-        $qrPng = \QrCode::format('png')
-            ->size(120)
-            ->generate($urlReporte);
-
-
-
-        $qrBase64 = 'data:image/png;base64,' . base64_encode($qrPng);
+        $qrSvg = \QrCode::format('svg')
+        ->size(120)
+        ->generate($urlReporte);
+    
+        $qrBase64 = 'data:image/svg+xml;base64,' . base64_encode($qrSvg);
         $imagenMapa = $request->input('imagenMapa');
 
         return \PDF::loadView('admin.ZonasRiesgo.reporte-pdf', compact('riesgos', 'imagenMapa', 'qrBase64', 'nivelSeleccionado'))
