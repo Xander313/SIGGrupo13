@@ -22,7 +22,7 @@
     <p style="text-align: center; font-size: 12px; margin-bottom: 20px;">
         Generado el {{ \Carbon\Carbon::now()->translatedFormat('l d \d\e F \d\e Y') }}
     </p>
-
+    
 
     @if($qrBase64)
         <div class="qr">
@@ -30,6 +30,29 @@
             <img src="{{ $qrBase64 }}" width="100" alt="QR" />
         </div>
     @endif
+
+    @php
+        $emojis = [
+            'Refugio' => '<span style="display:inline-block; width:12px; height:12px; background-color:#28a745; border-radius:50%; margin-right:5px;"></span> Refugio (verde)',
+            'Centro de salud' => '<span style="display:inline-block; width:12px; height:12px; background-color:#17a2b8; border-radius:50%; margin-right:5px;"></span> Centro de salud (azul)',
+            'Zona de evacuación' => '<span style="display:inline-block; width:12px; height:12px; background-color:#dc3545; border-radius:50%; margin-right:5px;"></span> Zona de evacuación (rojo)'
+        ];
+    @endphp
+
+
+    @if($tipoSeleccionado && $tipoSeleccionado !== 'Todos')
+        <p style="text-align:center; font-size:13px; margin-bottom:10px;">
+            <strong>🔎 Zona filtrada:</strong> {!! $emojis[$tipoSeleccionado] ?? $tipoSeleccionado !!}
+        </p>
+    @else
+        <p style="text-align:center; font-size:13px; margin-bottom:10px;">
+            <strong>🔎 Mostrando todas las zonas:</strong>
+            @foreach($emojis as $texto)
+                {!! $texto !!}@if (!$loop->last), @endif
+            @endforeach
+        </p>
+    @endif
+
 
     @if($imagenMapa)
         <p><strong>Mapa general de zonas:</strong><p class="leyenda"><em>Este mapa se ha creado con la versión gratuita de Google Maps API JS, por tanto, no se renderizará el mapa.</em></p></p>
