@@ -111,5 +111,25 @@ class UsuarioController extends Controller
             ->download('reporte_zonas_seguras_' . now()->format('Ymd_His') . '.pdf');
     }
 
+    public function generarReporteR(Request $request)
+    {
+        $nivelSeleccionado = $request->input('nivelSeleccionado');
 
+        $riesgos = ($nivelSeleccionado && $nivelSeleccionado !== 'Todos')
+            ? Riesgo::where('nivel', $nivelSeleccionado)->get()
+            : Riesgo::all();
+
+        $urlReporte = route('usuario-zonas-riesgo.vista-riesgo');
+
+        $qrSvg = \QrCode::format('svg')
+        ->size(120)
+        ->generate($urlReporte);
+    
+        $qrBase64 = 'data:image/svg+xml;base64,' . base64_encode($qrSvg);
+        $imagenMapa = $request->input('imagenMapa');
+
+        return \PDF::loadView('admin.ZonasRiesgo.reporte-pdf', compact('riesgos', 'imagenMapa', 'qrBase64', 'nivelSeleccionado'))
+            ->setPaper('A4', 'portrait')
+            ->download('reporte_zonas_riesgo_' . now()->format('Ymd_His') . '.pdf');
+    }
 }

@@ -86,6 +86,8 @@ Route::post('usuarios/zonas-riesgo/create-report', [UsuarioController::class, 'g
 // Vista previa del reporte con mapa interactivo
 Route::get('/zonas-seguras/vista-reporte', [ZonaSeguraController::class, 'vistaReporte'])
      ->name('zonas-seguras.vista-reporte');
+
+     
 //Vista previa del reporte con mapa interactivo Zonas de Riesgo
 Route::get('/zonas-riesgo/vista-reporte', [RiesgoController::class, 'vistaReporte'])
      ->name('zonas-riesgo.vista-reporte');

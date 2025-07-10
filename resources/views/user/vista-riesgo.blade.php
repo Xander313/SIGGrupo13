@@ -15,7 +15,7 @@
 
     <div id="mapa" style="height: 500px; width: 100%; border: 1px solid #ccc;"></div>
 
-    <form method="POST" action="{{ route('usuariozonas-riesgo.reporte') }}">
+    <form method="POST" action="{{ route('usuarios-zonas-riesgo.reporte') }}">
         @csrf
         <input type="hidden" name="imagenMapa" id="imagenMapa">
             <input type="hidden" name="nivelSeleccionado" id="nivelSeleccionado">
