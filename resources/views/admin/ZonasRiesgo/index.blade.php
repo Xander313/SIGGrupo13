@@ -11,6 +11,11 @@
                 Agregar nueva Zona de Riesgo
             </a>
         </div>
+        <div class="text-right">
+            <a href="{{ route('zonas-riesgo.vista-reporte') }}" class="btn btn-primary">
+                Vista previa del reporte
+            </a>
+        </div>
         <br>
         <div class="table-responsive">
             <table class="table table-hover table-bordered align-middle">

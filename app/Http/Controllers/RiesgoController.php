@@ -109,7 +109,7 @@ class RiesgoController extends Controller
     public function vistaReporte()
     {
         $riesgos = Riesgo::all(); 
-        return view('admin.ZonasRiesgo.vista-riesgo', compact('riesgos'));
+        return view('admin.ZonasRiesgo.vista-reporte', compact('riesgos'));
     }
 
     public function generarReporte(Request $request)

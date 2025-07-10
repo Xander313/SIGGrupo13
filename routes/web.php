@@ -60,10 +60,11 @@ Route::post('usuarios/zonas-seguras/create-report', [UsuarioController::class, '
      ->name('usuarios-zonas-seguras.reporte');
 
 
-//RUTA PARA LA GENRACION DE REPORTE EN PDF DE ZONAS DE RiESGO
+//RUTA PARA LA GENRACION DE REPORTE EN PDF DE ZONAS DE RiESGO ADMIN
 Route::post('/zonas-riesgo/create-report', [RiesgoController::class, 'generarReporte'])
      ->name('zonas-riesgo.reporte');
 
+//USUARIO
 Route::post('usuarios/zonas-riesgo/create-report', [UsuarioController::class, 'generarReporteR'])
      ->name('usuarios-zonas-riesgo.reporte');
 
