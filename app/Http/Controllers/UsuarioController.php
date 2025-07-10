@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ZonaSegura;
+use App\Models\Riesgo;
+
 
 class UsuarioController extends Controller
 {
@@ -75,6 +77,12 @@ class UsuarioController extends Controller
         return view('user.vista-reporte', compact('zonas'));
     }
 
+
+    public function vistaReporteR()
+    {
+        $riesgos = Riesgo::all(); 
+        return view('user.vista-riesgo', compact('riesgos'));
+    }
 
 
 

@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
+use Barryvdh\DomPDF\Facade\Pdf;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Http;
+
+
 use App\Models\Riesgo;
 
 class RiesgoController extends Controller
@@ -114,23 +120,28 @@ class RiesgoController extends Controller
 
     public function generarReporte(Request $request)
     {
-        $riesgos = Riesgo::all();
+        $nivelSeleccionado = $request->input('nivelSeleccionado');
 
-        //reporte
-        $urlReporte = route('ZonasRiesgo.vista-riesgo'); // C
+        $riesgos = ($nivelSeleccionado && $nivelSeleccionado !== 'Todos')
+            ? Riesgo::where('nivel', $nivelSeleccionado)->get()
+            : Riesgo::all();
 
-        // Generar QR con la URL
+        $urlReporte = route('zonas-riesgo.vista-reporte');
+
         $qrPng = \QrCode::format('png')
             ->size(120)
             ->generate($urlReporte);
 
-        $qrBase64 = 'data:image/png;base64,' . base64_encode($qrPng);
 
-        // Captura de imagen del mapa 
+
+        $qrBase64 = 'data:image/png;base64,' . base64_encode($qrPng);
         $imagenMapa = $request->input('imagenMapa');
 
-        return \PDF::loadView('admin.ZonasRiesgo.reporte-pdf', compact('riesgos', 'imagenMapa', 'qrBase64'))
+        return \PDF::loadView('admin.ZonasRiesgo.reporte-pdf', compact('riesgos', 'imagenMapa', 'qrBase64', 'nivelSeleccionado'))
             ->setPaper('A4', 'portrait')
             ->download('reporte_zonas_riesgo_' . now()->format('Ymd_His') . '.pdf');
     }
+
+
+
 }

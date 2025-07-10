@@ -31,6 +31,28 @@
         </div>
     @endif
 
+    @php
+        $colores = [
+            'Alto' => '<span style="display:inline-block; width:12px; height:12px; background-color:#dc3545; border-radius:50%; margin-right:5px;"></span> Riesgo Alto (rojo)',
+            'Medio' => '<span style="display:inline-block; width:12px; height:12px; background-color:#fd7e14; border-radius:50%; margin-right:5px;"></span> Riesgo Medio (naranja)',
+            'Bajo' => '<span style="display:inline-block; width:12px; height:12px; background-color:#ffc107; border-radius:50%; margin-right:5px;"></span> Riesgo Bajo (amarillo)'
+        ];
+    @endphp
+
+    @if($nivelSeleccionado && $nivelSeleccionado !== 'Todos')
+        <p style="text-align:center; font-size:13px; margin-bottom:10px;">
+            <strong>🔎 Nivel filtrado:</strong> {!! $colores[$nivelSeleccionado] ?? $nivelSeleccionado !!}
+        </p>
+    @else
+        <p style="text-align:center; font-size:13px; margin-bottom:10px;">
+            <strong>🔎 Mostrando todos los niveles:</strong>
+            @foreach($colores as $texto)
+                {!! $texto !!}@if (!$loop->last), @endif
+            @endforeach
+        </p>
+    @endif
+
+
     @if($imagenMapa)
         <p><strong>Mapa general de zonas de riesgo:</strong></p>
         <p class="leyenda">
