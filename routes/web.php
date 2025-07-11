@@ -116,7 +116,12 @@ Route::get('usuario/zonas-seguras/vista-reporte', [UsuarioController::class, 'vi
 Route::get('usuario/zonas-riesgo/vista-riesgo', [UsuarioController::class, 'vistaReporteR'])
      ->name('usuario-zonas-riesgo.vista-riesgo');
 
+// Agregar estas rutas dentro del grupo prefix('admin')
+Route::get('puntos-encuentro/vista-reporte', [PuntoEncuentroController::class, 'vistaReporte'])
+     ->name('admin.puntos-encuentro.vista-reporte');
 
+Route::post('puntos-encuentro/generar-reporte', [PuntoEncuentroController::class, 'generarReporte'])
+     ->name('admin.puntos-encuentro.generar-reporte');
 
 
 

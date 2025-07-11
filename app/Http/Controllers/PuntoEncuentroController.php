@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PuntoEncuentro;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class PuntoEncuentroController extends Controller
 {
@@ -71,5 +73,29 @@ class PuntoEncuentroController extends Controller
 
         return redirect()->route('admin.puntos-encuentro.index')
             ->with('success', 'Punto de encuentro eliminado exitosamente');
+    }
+    public function vistaReporte()
+    {
+        $puntos = PuntoEncuentro::all();
+        return view('admin.puntosEncuentro.vista-reporte', compact('puntos'));
+    }
+
+    public function generarReporte(Request $request)
+    {
+        $puntos = PuntoEncuentro::all();
+        $urlReporte = route('admin.puntos-encuentro.vista-reporte');
+        
+        $qrSvg = \QrCode::format('svg')
+            ->size(120)
+            ->generate($urlReporte);
+        
+        $qrBase64 = 'data:image/svg+xml;base64,' . base64_encode($qrSvg);
+        
+        $imagenMapa = $request->input('imagenMapa');
+
+        return \PDF::loadView('admin.puntosEncuentro.reporte-pdf', 
+            compact('puntos', 'imagenMapa', 'qrBase64'))
+            ->setPaper('A4', 'portrait')
+            ->download('reporte_puntos_encuentro_'.now()->format('Ymd_His').'.pdf');
     }
 }
