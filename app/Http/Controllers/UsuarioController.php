@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ZonaSegura;
 use App\Models\Riesgo;
+use App\Models\PuntoEncuentro;
 
 
 class UsuarioController extends Controller
@@ -85,6 +86,11 @@ class UsuarioController extends Controller
     }
 
 
+    public function vistaReporteEncuentros()
+{
+    $puntos = PuntoEncuentro::all(); 
+    return view('user.vista-reporte-encuentros', compact('puntos'));
+}
 
 
 
@@ -132,4 +138,22 @@ class UsuarioController extends Controller
             ->setPaper('A4', 'portrait')
             ->download('reporte_zonas_riesgo_' . now()->format('Ymd_His') . '.pdf');
     }
+
+    public function generarReporteEncuentros(Request $request)
+{
+    $puntos = PuntoEncuentro::all();
+
+    $urlReporte = route('usuario-puntos-encuentro.vista-reporte');
+
+    $qrSvg = \QrCode::format('svg')
+        ->size(120)
+        ->generate($urlReporte);
+    
+    $qrBase64 = 'data:image/svg+xml;base64,' . base64_encode($qrSvg);
+    $imagenMapa = $request->input('imagenMapa');
+
+    return \PDF::loadView('admin.PuntosEncuentro.reporte-pdf', compact('puntos', 'imagenMapa', 'qrBase64'))
+        ->setPaper('A4', 'portrait')
+        ->download('reporte_puntos_encuentro_' . now()->format('Ymd_His') . '.pdf');
+}
 }

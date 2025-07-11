@@ -20,7 +20,7 @@
     </div>
 
     <div class="table-responsive">
-        <table id="zonas-table" class="table table-striped table-hover">
+        <table id="puntos-table" class="table table-striped table-hover">
             <thead class="table-dark">
                 <tr>
                     <th>Nombre</th>
@@ -91,45 +91,62 @@
 @endforeach
 
 <script>
-function initPuntos() {
+// Función para inicializar un mapa específico
+function initMapaPunto(id, lat, lng, radio, nombre) {
+    const mapaElement = document.getElementById('mapaPunto'+id);
+    
+    // Solo inicializar si el elemento existe y no se ha inicializado antes
+    if (mapaElement && !mapaElement._mapInitialized) {
+        const mapa = new google.maps.Map(mapaElement, {
+            center: { lat: parseFloat(lat), lng: parseFloat(lng) },
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        // Marcador con icono aleatorio
+        new google.maps.Marker({
+            position: { lat: parseFloat(lat), lng: parseFloat(lng) },
+            map: mapa,
+            title: nombre,
+            icon: window.mapaIconos.obtenerAleatorio()
+        });
+
+        // Círculo de cobertura
+        new google.maps.Circle({
+            strokeColor: "#FF0000",
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: "#FF0000",
+            fillOpacity: 0.35,
+            map: mapa,
+            center: { lat: parseFloat(lat), lng: parseFloat(lng) },
+            radius: parseFloat(radio)
+        });
+
+        // Marcar como inicializado
+        mapaElement._mapInitialized = true;
+    }
+}
+
+// Escuchar cuando se muestre el modal
+document.addEventListener('DOMContentLoaded', function() {
     @foreach($puntos as $punto)
-    // Mapa para el modal
-    const map{{ $punto->id }} = new google.maps.Map(document.getElementById('mapaPunto{{ $punto->id }}'), {
-        center: { lat: {{ $punto->latitud }}, lng: {{ $punto->longitud }} },
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
-
-    // Marcador con icono aleatorio
-    new google.maps.Marker({
-        position: { lat: {{ $punto->latitud }}, lng: {{ $punto->longitud }} },
-        map: map{{ $punto->id }},
-        title: "{{ $punto->nombre }}",
-        icon: window.mapaIconos.obtenerAleatorio()
-    });
-
-    // Círculo de cobertura
-    new google.maps.Circle({
-        strokeColor: "#FF0000",
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: "#FF0000",
-        fillOpacity: 0.35,
-        map: map{{ $punto->id }},
-        center: { lat: {{ $punto->latitud }}, lng: {{ $punto->longitud }} },
-        radius: {{ $punto->radio }}
+    document.getElementById('modalPunto{{ $punto->id }}').addEventListener('shown.bs.modal', function () {
+        initMapaPunto(
+            '{{ $punto->id }}', 
+            '{{ $punto->latitud }}', 
+            '{{ $punto->longitud }}', 
+            '{{ $punto->radio }}', 
+            '{{ $punto->nombre }}'
+        );
     });
     @endforeach
-}
-
-function initMap() {
-    initPuntos();
-}
+});
 </script>
 
 <script>
 $(document).ready(function() {
-    let table = new DataTable('#zonas-table', {
+    $('#puntos-table').DataTable({
         language: {
             url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
         },
@@ -144,4 +161,5 @@ $(document).ready(function() {
     });
 });
 </script>
+
 @endsection

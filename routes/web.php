@@ -98,6 +98,9 @@ Route::get('/zonas-seguras/preview-mapa', [ZonaSeguraController::class, 'mostrar
 Route::get('/zonas-riesgo/preview-mapa', [RiesgoController::class, 'mostrarMapa']);
 
      
+// RUTA para la vista previa de los mapas de puntos de encuentro de los usuarios
+Route::get('usuario/puntos-encuentro/vista-reporte', [UsuarioController::class, 'vistaReporteEncuentros'])
+     ->name('usuario-puntos-encuentro.vista-reporte');
 
 //RUTA FULLREST PARA ZONAS SEGURAS
 Route::resource('/admin/zonas-seguras', ZonaSeguraController::class);
@@ -123,7 +126,8 @@ Route::get('puntos-encuentro/vista-reporte', [PuntoEncuentroController::class, '
 Route::post('puntos-encuentro/generar-reporte', [PuntoEncuentroController::class, 'generarReporte'])
      ->name('admin.puntos-encuentro.generar-reporte');
 
-
+     Route::post('usuarios/puntos-encuentro/generar-reporte', [UsuarioController::class, 'generarReporteEncuentros'])
+     ->name('usuarios-puntos-encuentro.generar-reporte');
 
 ///rita para los puntos de encuentro
 // RUTAS PARA PUNTOS DE ENCUENTRO (ADMIN)
