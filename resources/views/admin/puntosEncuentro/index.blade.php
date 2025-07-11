@@ -41,9 +41,7 @@
                     </td>
                     <td>
                         <div class="d-flex gap-2">
-                            <a href="{{ route('admin.puntos-encuentro.show', $punto->id) }}" class="btn btn-sm btn-info">
-                                <i class="fas fa-eye"></i>
-                            </a>
+                            
                             <a href="{{ route('admin.puntos-encuentro.edit', $punto->id) }}" class="btn btn-sm btn-primary">
                                 <i class="fas fa-edit"></i>
                             </a>
