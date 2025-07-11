@@ -14,10 +14,7 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> 
-
-
-
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
     <!-- 1. jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -39,7 +36,7 @@
     <script src="https://cdn.datatables.net/2.3.1/js/dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json"></script>
     
-    <!-- 6. DataTables Buttons (exportación e impresión) -->
+    <!-- 6. DataTables Buttons -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.3/css/buttons.dataTables.min.css">
     <script src="https://cdn.datatables.net/buttons/3.2.3/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.2.3/js/buttons.dataTables.min.js"></script>
@@ -49,25 +46,46 @@
     <script src="https://cdn.datatables.net/buttons/3.2.3/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.2.3/js/buttons.print.min.js"></script>
     
-
-    <!-- 8. SweetAlert2 -->
+    <!-- 7. SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Configuración PREVIA de iconos (sin dependencias de Google Maps) -->
+    <script>
+        window.mapaIconosConfig = {
+            disponibles: [
+                { url: "https://maps.google.com/mapfiles/kml/pal4/icon54.png", size: [32, 32] }, // Casa
+                { url: "https://maps.google.com/mapfiles/kml/pal3/icon21.png", size: [32, 32] }, // Escuela
+                { url: "https://maps.google.com/mapfiles/kml/pal3/icon38.png", size: [32, 32] }, // Parque
+                { url: "https://maps.google.com/mapfiles/kml/pal3/icon48.png", size: [32, 32] }, // Hospital
+                { url: "https://maps.google.com/mapfiles/kml/pal3/icon7.png", size: [32, 32] }   // Estrella
+            ]
+        };
+    </script>
 
+    <!-- Carga la API de Google Maps SOLO UNA VEZ -->
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_KEY') }}&callback=initMapIconos" async defer></script>
 
-
-
-
-
-
-
-
-
-
-
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_KEY') }}&callback=initMap" async defer></script>
-
-
+    <!-- Script para inicializar los iconos cuando la API esté lista -->
+    <script>
+        function initMapIconos() {
+            // Convertir la configuración a objetos de Google Maps
+            window.mapaIconos = {
+                disponibles: window.mapaIconosConfig.disponibles.map(icono => ({
+                    url: icono.url,
+                    scaledSize: new google.maps.Size(icono.size[0], icono.size[1])
+                })),
+                obtenerAleatorio: function() {
+                    const indice = Math.floor(Math.random() * this.disponibles.length);
+                    return this.disponibles[indice];
+                }
+            };
+            
+            // Si hay una función initMap definida, la ejecutamos
+            if (typeof initMap === 'function') {
+                initMap();
+            }
+        }
+    </script>
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">

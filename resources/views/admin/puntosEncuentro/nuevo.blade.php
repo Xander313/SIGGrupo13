@@ -22,7 +22,7 @@
 
     <div class="mb-3">
         <label class="form-label"><b>Radio de Cobertura (metros):</b></label>
-        <input type="number" name="radio" class="form-control" value="50" placeholder="Radio en metros" required min="1">
+        <input type="number" name="radio" class="form-control" value="50" placeholder="Radio en metros" required min="1" id="radio-input">
     </div>
 
     <div class="mb-3">
@@ -37,75 +37,58 @@
                 <input type="number" step="any" id="longitud" value="-78.6161327" name="longitud" class="form-control" readonly>
             </div>
         </div>
+        <div id="mapa" style="height: 500px; width: 100%; border: 2px solid #ddd; margin-top: 10px;"></div>
     </div>
-    <div id="mapa" style="margin-top:50px; height: 500px; width: 80%; border: 2px solid #ddd; margin-top: 10px; margin: auto;"></div>
-
 
     <button type="submit" class="btn btn-success">Guardar</button>
-
     <a href="{{ route('admin.puntos-encuentro.index') }}" class="btn btn-danger">Cancelar</a>
 </form>
-
-
 
 <script>
 function initMap() {
     const ubicacionInicial = { lat: -0.9374805, lng: -78.6161327 };
-
     const mapa = new google.maps.Map(document.getElementById('mapa'), {
         center: ubicacionInicial,
-        zoom: 17,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        zoom: 15
     });
 
+    // Marcador con icono aleatorio
     const marcador = new google.maps.Marker({
         position: ubicacionInicial,
         map: mapa,
         draggable: true,
-        title: "Arrastra para seleccionar ubicación"
+        title: "Arrastra para seleccionar ubicación",
+        icon: window.mapaIconos.obtenerAleatorio()
     });
 
-    const radioInput = document.querySelector('input[name="radio"]');
+    // Círculo de cobertura
+    const radioInput = document.getElementById('radio-input');
+    let radio = parseFloat(radioInput.value) || 50;
     const circulo = new google.maps.Circle({
-        strokeColor: "#000b8f",
+        strokeColor: "#FF0000",
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        fillColor: "#000b8f",
+        fillColor: "#FF0000",
         fillOpacity: 0.35,
         map: mapa,
         center: ubicacionInicial,
-        radius: parseFloat(radioInput.value || 100)
+        radius: radio
     });
 
     // Actualizar coordenadas y círculo al mover el marcador
-    marcador.addListener('drag', function () {
-        const pos = marcador.getPosition();
-        document.getElementById('latitud').value = pos.lat().toFixed(7);
-        document.getElementById('longitud').value = pos.lng().toFixed(7);
-        circulo.setCenter(pos);
+    marcador.addListener('drag', function() {
+        const nuevaPosicion = marcador.getPosition();
+        document.getElementById('latitud').value = nuevaPosicion.lat().toFixed(7);
+        document.getElementById('longitud').value = nuevaPosicion.lng().toFixed(7);
+        circulo.setCenter(nuevaPosicion);
     });
 
-    // Actualizar radio del círculo al escribir
-    radioInput.addEventListener('input', function () {
-        const nuevoRadio = parseFloat(this.value);
-        circulo.setRadius(nuevoRadio);
-    });
-
-    // Reactivar círculo si se modifican manualmente las coordenadas
-    ['latitud', 'longitud'].forEach(id => {
-        document.getElementById(id).addEventListener('change', function () {
-            const lat = parseFloat(document.getElementById('latitud').value);
-            const lng = parseFloat(document.getElementById('longitud').value);
-            if (!isNaN(lat) && !isNaN(lng)) {
-                const nuevaPos = new google.maps.LatLng(lat, lng);
-                marcador.setPosition(nuevaPos);
-                circulo.setCenter(nuevaPos);
-                mapa.setCenter(nuevaPos);
-            }
-        });
+    // Actualizar radio cuando cambie el input
+    radioInput.addEventListener('input', function() {
+        radio = parseFloat(this.value) || 50;
+        circulo.setRadius(radio);
     });
 }
-
 </script>
 
 @endsection

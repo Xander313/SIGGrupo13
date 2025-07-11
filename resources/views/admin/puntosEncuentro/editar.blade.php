@@ -23,7 +23,7 @@
 
     <div class="mb-3">
         <label class="form-label"><b>Radio de Cobertura (metros):</b></label>
-        <input type="number" name="radio" class="form-control" value="{{ $punto->radio }}" required min="1">
+        <input type="number" name="radio" class="form-control" value="{{ $punto->radio }}" required min="1" id="radio-input">
     </div>
 
     <div class="mb-3">
@@ -42,7 +42,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Actualizar</button>
-    <button type="button" onclick="graficarCirculo()" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalGraficoCirculo">
+    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalGraficoCirculo" id="btn-ver-radio">
         Ver Radio
     </button>
     <a href="{{ route('admin.puntos-encuentro.index') }}" class="btn btn-danger">Cancelar</a>
@@ -67,62 +67,121 @@
 </div>
 
 <script>
-    var mapa;
-    var marcador;
+// Variables globales
+let mapa;
+let marcador;
+let circuloPrincipal;
 
-    function initMap() {
-        var ubicacionActual = { lat: {{ $punto->latitud }}, lng: {{ $punto->longitud }} };
-        
-        mapa = new google.maps.Map(document.getElementById('mapa'), {
-            center: ubicacionActual,
-            zoom: 15
-        });
+// Inicializar el mapa principal
+function initMap() {
+    const ubicacionActual = {
+        lat: parseFloat({{ $punto->latitud }}),
+        lng: parseFloat({{ $punto->longitud }})
+    };
 
-        marcador = new google.maps.Marker({
-            position: ubicacionActual,
-            map: mapa,
-            draggable: true,
-            title: "Arrastra para cambiar ubicación"
-        });
+    // Crear el mapa
+    mapa = new google.maps.Map(document.getElementById('mapa'), {
+        center: ubicacionActual,
+        zoom: 15
+    });
 
-        marcador.addListener('dragend', function() {
-            var posicion = marcador.getPosition();
-            document.getElementById('latitud').value = posicion.lat();
-            document.getElementById('longitud').value = posicion.lng();
-        });
-    }
+    // Marcador arrastrable con icono aleatorio
+    marcador = new google.maps.Marker({
+        position: ubicacionActual,
+        map: mapa,
+        draggable: true,
+        title: "Arrastra para cambiar ubicación",
+        icon: window.mapaIconos.obtenerAleatorio()
+    });
 
-    function graficarCirculo() {
-        var radio = document.querySelector('input[name="radio"]').value;
-        var latitud = document.getElementById('latitud').value;
-        var longitud = document.getElementById('longitud').value;
+    // Evento al arrastrar el marcador
+    marcador.addListener('drag', function() {
+        const posicion = marcador.getPosition();
+        document.getElementById('latitud').value = posicion.lat().toFixed(7);
+        document.getElementById('longitud').value = posicion.lng().toFixed(7);
+        if (circuloPrincipal) {
+            circuloPrincipal.setCenter(posicion);
+        }
+    });
 
-        var centro = new google.maps.LatLng(parseFloat(latitud), parseFloat(longitud));
-        
-        var mapaCirculo = new google.maps.Map(document.getElementById('mapa-circulo'), {
-            center: centro,
-            zoom: 15,
-            mapTypeId: google.maps.MapTypeId.SATELLITE
-        });
+    // Dibujar el círculo inicial
+    dibujarCirculoPrincipal();
 
-        new google.maps.Marker({
-            position: centro,
-            map: mapaCirculo,
-            title: "Centro del Punto"
-        });
+    // Evento dinámico para actualizar el radio
+    document.getElementById('radio-input').addEventListener('input', function() {
+        dibujarCirculoPrincipal();
+    });
 
-        new google.maps.Circle({
+    // Configurar el mapa del modal
+    configurarMapaModal();
+}
+
+// Dibuja o actualiza el círculo principal
+function dibujarCirculoPrincipal() {
+    const radio = parseFloat(document.getElementById('radio-input').value);
+    const centro = marcador.getPosition();
+
+    if (circuloPrincipal) {
+        circuloPrincipal.setRadius(radio);
+        circuloPrincipal.setCenter(centro);
+    } else {
+        circuloPrincipal = new google.maps.Circle({
             strokeColor: "#FF0000",
             strokeOpacity: 0.8,
             strokeWeight: 2,
             fillColor: "#FF0000",
             fillOpacity: 0.35,
-            map: mapaCirculo,
+            map: mapa,
             center: centro,
-            radius: parseFloat(radio)
+            radius: radio
         });
     }
+}
+
+// Configurar el mapa del modal
+function configurarMapaModal() {
+    $('#modalGraficoCirculo').on('shown.bs.modal', function() {
+        const ubicacionActual = marcador.getPosition();
+        const radio = parseFloat(document.getElementById('radio-input').value);
+        
+        const mapaModal = new google.maps.Map(document.getElementById('mapa-circulo'), {
+            center: ubicacionActual,
+            zoom: 15
+        });
+
+        new google.maps.Marker({
+            position: ubicacionActual,
+            map: mapaModal,
+            title: "{{ $punto->nombre }}",
+            icon: window.mapaIconos.obtenerAleatorio()
+        });
+
+        new google.maps.Circle({
+            strokeColor: "#0000FF",
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: "#0000FF",
+            fillOpacity: 0.35,
+            map: mapaModal,
+            center: ubicacionActual,
+            radius: radio
+        });
+    });
+}
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDV-hhnGIiWpn19hxGsr3NpUv7yFXaqFCU&callback=initMap"></script>
+
+<!-- Cargar la API de Google Maps -->
+<script>
+    function loadGoogleMaps() {
+        const script = document.createElement('script');
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDV-hhnGIiWpn19hxGsr3NpUv7yFXaqFCU&callback=initMap';
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+    }
+    
+    // Cargar el mapa cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', loadGoogleMaps);
+</script>
 
 @endsection

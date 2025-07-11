@@ -17,9 +17,4 @@ class PuntoEncuentro extends Model
         'responsable'
     ];
 
-    protected $casts = [
-        'capacidad' => 'integer',
-        'latitud' => 'float',
-        'longitud' => 'float'
-    ];
 }
