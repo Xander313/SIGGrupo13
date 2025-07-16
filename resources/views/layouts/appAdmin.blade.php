@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>SEO Master - SEO Agency Website Template</title>
+    <title>Admin Zone</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -49,6 +49,7 @@
     <!-- 7. SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    
     <!-- Configuración PREVIA de iconos (sin dependencias de Google Maps) -->
     <script>
         window.mapaIconosConfig = {
@@ -144,7 +145,7 @@
         </div>
         <!-- Navbar & Hero End -->
 
-    @yield('content')
+        @yield('content')
 
         
 
@@ -177,22 +178,22 @@
                         <h5 class="text-white mb-4">Project Gallery</h5>
                         <div class="row g-2">
                             <div class="col-4">
-                                <img class="img-fluid" src="img/portfolio-1.jpg" alt="Image">
+                                <img class="img-fluid" src="{{ asset('img/portfolio-1.jpg')}}" alt="Image">
                             </div>
                             <div class="col-4">
-                                <img class="img-fluid" src="img/portfolio-2.jpg" alt="Image">
+                                <img class="img-fluid" src="{{ asset('img/portfolio-2.jpg')}}" alt="Image">
                             </div>
                             <div class="col-4">
-                                <img class="img-fluid" src="img/portfolio-3.jpg" alt="Image">
+                                <img class="img-fluid" src="{{ asset('img/portfolio-3.jpg')}}" alt="Image">
                             </div>
                             <div class="col-4">
-                                <img class="img-fluid" src="img/portfolio-4.jpg" alt="Image">
+                                <img class="img-fluid" src="{{ asset('img/portfolio-4.jpg')}}" alt="Image">
                             </div>
                             <div class="col-4">
-                                <img class="img-fluid" src="img/portfolio-5.jpg" alt="Image">
+                                <img class="img-fluid" src="{{ asset('img/portfolio-5.jpg')}}" alt="Image">
                             </div>
                             <div class="col-4">
-                                <img class="img-fluid" src="img/portfolio-6.jpg" alt="Image">
+                                <img class="img-fluid" src="{{ asset('img/portfolio-6.jpg')}}" alt="Image">
                             </div>
                         </div>
                     </div>

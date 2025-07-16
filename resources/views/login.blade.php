@@ -105,13 +105,16 @@ label{
     to { opacity: 1; transform: translateY(0); }
 }
 
+#inicisooss{
+    color: #fff;
+}
 
 
 </style>
 
 
 <div class="welcome-text">
-    <p>👋 ¡Bienvenido de nuevo! Inicia sesión para continuar.</p>
+    <p id="inicisooss">👋 ¡Bienvenido de nuevo! Inicia sesión para continuar.</p>
 </div>
 
 

@@ -53,9 +53,10 @@
                         <form action="{{ route('zonas-seguras.destroy', $zona->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar esta zona?')">
+                            <button class="btn btn-danger btn-sm btn-eliminar">
                                 <i class="fas fa-trash"></i> Eliminar
                             </button>
+
                         </form>
                     </td>
                 </tr>
@@ -63,6 +64,38 @@
         </tbody>
     </table>
 </div>
+
+
+<script>
+    $(document).ready(function() {
+        $('.btn-eliminar').on('click', function(e) {
+            e.preventDefault();
+            const form = $(this).closest('form');
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                } else {
+                    Swal.fire(
+                        'Cancelado',
+                        'La zona segura no fue eliminada.',
+                        'info'
+                    );
+                }
+            });
+        });
+    });
+</script>
+
 
 
 @foreach ($zonas as $zona)

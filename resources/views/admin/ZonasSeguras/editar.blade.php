@@ -2,11 +2,22 @@
 @extends('layouts.appAdmin')
 @section('content')
 
+
+<!-- 1. jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- 2. jQuery Validation -->
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/localization/messages_es.min.js"></script>
+
+
+
 <br><br><br><br><br>
 <div class='row'>
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <form action="{{ route('zonas-seguras.update', $zona) }}" method="POST">
+        <form action="{{ route('zonas-seguras.update', $zona) }}" method="POST" id="formZonaSegura">
             @csrf
             @method('PUT')
             <h3><b>Editar Zona Segura</b></h3>
@@ -14,7 +25,7 @@
 
             <label for="nombre"><b>Nombre de la zona:</b></label>
             <input type="text" name="nombre" id="nombre" value="{{ $zona->nombre }}" class="form-control" required>
-
+            <br>
             <label for="tipo_seguridad"><b>Tipo de seguridad:</b></label>
             <select name="tipo_seguridad" id="tipo_seguridad" class="form-select" required>
                 <option value="">--- Seleccione ---</option>
@@ -22,15 +33,16 @@
                 <option value="Zona de evacuación" {{ $zona->tipo_seguridad == 'Zona de evacuación' ? 'selected' : '' }}>Zona de evacuación</option>
                 <option value="Centro de salud" {{ $zona->tipo_seguridad == 'Centro de salud' ? 'selected' : '' }}>Centro de salud</option>
             </select>
+            <br>
 
             <label for="radio"><b>Radio (en metros):</b></label>
             <input type="number" name="radio" id="radio" value="{{ $zona->radio }}" class="form-control" required>
-
+            <br>
             <label><b>Coordenadas centrales:</b></label>
             <input type="text" name="latitud" id="latitud" value="{{ $zona->latitud }}" class="form-control" readonly required>
             <input type="text" name="longitud" id="longitud" value="{{ $zona->longitud }}" class="form-control" readonly required>
-
-            <div id="mapa2" style="height: 300px; width: 100%; border: 3px solid #2563eb; margin-top: 15px; border-radius: 6px;"></div>
+            <br>
+            <div id="mapa2" style="height: 500px; width: 100%; border: 3px solid #2563eb; margin-top: 15px; border-radius: 6px;"></div>
 
             <br>
             <center>
@@ -40,6 +52,94 @@
         </form>
     </div>
 </div>
+
+
+
+
+<style>
+    .error {
+      color: red;
+    }
+    
+    .form-control.error {
+      border: 1px solid red;
+    }
+</style>
+
+
+<script>
+    $("#formZonaSegura").validate({
+        rules: {
+            nombre: {
+                required: true,
+                minlength: 3,
+                maxlength: 50
+            },
+            tipo_seguridad: {
+                required: true
+            },
+            radio: {
+                required: true,
+                number: true,
+                min: 10,
+                max: 1000
+            },
+            latitud: {
+                required: true,
+                number: true,
+                min: -90,
+                max: 90
+            },
+            longitud: {
+                required: true,
+                number: true,
+                min: -180,
+                max: 180
+            }
+        },
+        messages: {
+            nombre: {
+                required: "Por favor, ingresa el nombre de la zona.",
+                minlength: "El nombre debe tener al menos 3 caracteres.",
+                maxlength: "El nombre no debe exceder los 50 caracteres."
+            },
+            tipo_seguridad: {
+                required: "Selecciona el tipo de seguridad correspondiente."
+            },
+            radio: {
+                required: "Indica el radio en metros.",
+                number: "Solo se permiten valores numéricos.",
+                min: "El radio mínimo permitido es 10 metros.",
+                max: "El radio máximo permitido es 1000 metros."
+            },
+            latitud: {
+                required: "La latitud es obligatoria.",
+                number: "Debe ser un número válido.",
+                min: "La latitud mínima es -90.",
+                max: "La latitud máxima es 90."
+            },
+            longitud: {
+                required: "La longitud es obligatoria.",
+                number: "Debe ser un número válido.",
+                min: "La longitud mínima es -180.",
+                max: "La longitud máxima es 180."
+            }
+        },
+        errorElement: 'span',
+        errorClass: 'text-danger',
+        highlight: function(element) {
+            $(element).addClass('is-invalid');
+        },
+        unhighlight: function(element) {
+            $(element).removeClass('is-invalid');
+        },
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+</script>
+
+
 
 <script>
 function initMap() {
