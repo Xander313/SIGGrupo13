@@ -19,8 +19,12 @@ class RiesgoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
         //
         $riesgos=Riesgo::all();
         return view('admin.ZonasRiesgo.index',compact('riesgos'));
@@ -29,9 +33,13 @@ class RiesgoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         return view('admin.ZonasRiesgo.nuevo');
     }
 
@@ -40,7 +48,11 @@ class RiesgoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $datos=[
             'nombre'=> $request->nombre,
             'descripcion'=> $request->descripcion,
@@ -70,9 +82,13 @@ class RiesgoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, string $id)
     {
-        //
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $riesgos = Riesgo::findOrFail($id); 
         return view('admin.ZonasRiesgo.editar', compact('riesgos'));
     }
@@ -82,7 +98,11 @@ class RiesgoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $riesgo = Riesgo::findOrFail($id);
         $riesgo->update([
             'nombre' => $request->nombre,
@@ -104,16 +124,25 @@ class RiesgoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
-        //
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $riegos = Riesgo::findOrFail($id);
         $riegos->delete();
     
         return redirect()->route('ZonasRiesgo.index')->with('success', 'Zona eliminada correctamente');
     }
-    public function vistaReporte()
+    public function vistaReporte(Request $request)
     {
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+        
         $riesgos = Riesgo::all(); 
         return view('admin.ZonasRiesgo.vista-reporte', compact('riesgos'));
     }

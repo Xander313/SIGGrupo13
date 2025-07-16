@@ -9,19 +9,37 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PuntoEncuentroController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $puntos = PuntoEncuentro::all();
         return view('admin.puntosEncuentro.index', compact('puntos'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
+
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         return view('admin.puntosEncuentro.nuevo');
     }
 
     public function store(Request $request)
     {
+
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $request->validate([
             'nombre' => 'required|max:100',
             'capacidad' => 'required|integer|min:1',
@@ -36,20 +54,38 @@ class PuntoEncuentroController extends Controller
             ->with('success', 'Punto de encuentro creado exitosamente');
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
+
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $punto = PuntoEncuentro::findOrFail($id);
         return view('admin.puntosEncuentro.mostrar', compact('punto'));
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $punto = PuntoEncuentro::findOrFail($id);
         return view('admin.puntosEncuentro.editar', compact('punto'));
     }
 
     public function update(Request $request, $id)
     {
+
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $punto = PuntoEncuentro::findOrFail($id);
         
         $request->validate([
@@ -66,16 +102,28 @@ class PuntoEncuentroController extends Controller
             ->with('success', 'Punto de encuentro actualizado exitosamente');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $punto = PuntoEncuentro::findOrFail($id);
         $punto->delete();
 
         return redirect()->route('admin.puntos-encuentro.index')
             ->with('success', 'Punto de encuentro eliminado exitosamente');
     }
-    public function vistaReporte()
+    public function vistaReporte(Request $request)
     {
+
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $puntos = PuntoEncuentro::all();
         return view('admin.puntosEncuentro.vista-reporte', compact('puntos'));
     }

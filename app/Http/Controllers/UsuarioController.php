@@ -67,30 +67,54 @@ class UsuarioController extends Controller
     }
 
 
-    public function inicio()
+    public function inicio(Request $request)
     {
+        if (!$request->session()->get('usuario_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Primero debes iniciar sesión para acceder al reporte.');
+        }
+
         return view('user.inicio');
     }
 
-    public function vistaReporte()
+    public function vistaReporte(Request $request)
     {
+
+
+        if (!$request->session()->get('usuario_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Primero debes iniciar sesión para acceder al reporte.');
+        }
+
         $zonas = ZonaSegura::all();
         return view('user.vista-reporte', compact('zonas'));
     }
 
 
-    public function vistaReporteR()
+
+    public function vistaReporteR(Request $request)
     {
+        if (!$request->session()->get('usuario_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Primero debes iniciar sesión para acceder al reporte.');
+        }
+
         $riesgos = Riesgo::all(); 
         return view('user.vista-riesgo', compact('riesgos'));
     }
 
 
-    public function vistaReporteEncuentros()
-{
-    $puntos = PuntoEncuentro::all(); 
-    return view('user.vista-reporte-encuentros', compact('puntos'));
-}
+    public function vistaReporteEncuentros(Request $request)
+    {
+
+        if (!$request->session()->get('usuario_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Primero debes iniciar sesión para acceder al reporte.');
+        }
+
+        $puntos = PuntoEncuentro::all(); 
+        return view('user.vista-reporte-encuentros', compact('puntos'));
+    }
 
 
 

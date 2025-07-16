@@ -20,8 +20,13 @@ class ZonaSeguraController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $zonas = ZonaSegura::all();
         return view('admin.ZonasSeguras.index', compact('zonas'));
     }
@@ -29,8 +34,13 @@ class ZonaSeguraController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         return view('admin.ZonasSeguras.crear');
     }
 
@@ -39,6 +49,11 @@ class ZonaSeguraController extends Controller
      */
     public function store(Request $request)
     {
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $request->validate([
             'nombre' => 'required|string|max:255',
             'radio' => 'required|numeric|min:1',
@@ -71,8 +86,13 @@ class ZonaSeguraController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, string $id)
     {
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $zona = ZonaSegura::findOrFail($id);
         return view('admin.ZonasSeguras.editar', compact('zona'));
     }
@@ -83,6 +103,11 @@ class ZonaSeguraController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $zona = ZonaSegura::findOrFail($id);
 
         $request->validate([
@@ -110,8 +135,13 @@ class ZonaSeguraController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+
         $zona = ZonaSegura::findOrFail($id);
         $zona->delete();
 
@@ -123,11 +153,17 @@ class ZonaSeguraController extends Controller
 
     //FUNCION PARA LA GENERACION DE REPORTES
 
-public function vistaReporte()
-{
-    $zonas = ZonaSegura::all();
-    return view('admin.ZonasSeguras.vista-reporte', compact('zonas'));
-}
+    public function vistaReporte(Request $request)
+    {
+        
+        if (!$request->session()->get('admin_autenticado')) {
+            return redirect('/')
+                ->with('error', 'Acceso restringido. Solo administradores pueden entrar aquí.');
+        }
+        
+        $zonas = ZonaSegura::all();
+        return view('admin.ZonasSeguras.vista-reporte', compact('zonas'));
+    }
 
 
 

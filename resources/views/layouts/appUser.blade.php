@@ -126,7 +126,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
     <div class="navbar-nav ms-auto py-0">
-        <a href="{{ url('/') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Cerrar sesión</a>
+        <a href="{{ route('logout') }}" class="nav-item nav-link">Cerrar sesión</a>
         <a href="{{ route('usuario-zonas-seguras.vista-reporte') }}" class="nav-item nav-link {{ request()->routeIs('zonas-seguras.index') ? 'active' : '' }}">Zonas Seguras</a>
         <a href="{{ route('usuario-zonas-riesgo.vista-riesgo') }}" class="nav-item nav-link {{ request()->routeIs('zonas-riesgo.index') ? 'active' : '' }}">Zonas de Riesgo</a>
         <a href="{{ route('usuario-puntos-encuentro.vista-reporte') }}" class="nav-item nav-link {{ request()->routeIs('puntos-encuentro.index') ? 'active' : '' }}">Puntos de Encuentro</a>

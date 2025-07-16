@@ -55,44 +55,38 @@ class AuthController extends Controller
 
 
 
-public function sesionInicada(Request $request)
-{
-    // Validar los datos del formulario
-    $credentials = $request->validate([
-        'correoUsuario' => 'required|email',
-        'passwordUsuario' => 'required|string',
-    ]);
+    public function sesionInicada(Request $request)
+    {
+        $credentials = $request->validate([
+            'correoUsuario' => 'required|email',
+            'passwordUsuario' => 'required|string',
+        ]);
 
         if (
             $credentials['correoUsuario'] === 'mainadmin@main.com' &&
             Hash::check($credentials['passwordUsuario'], '$2y$12$haiANH3hj2MA6jggIE3C8ubBdl.47jJ83U/UGk6CVPIgRTP14FAP6')
         ) {
-            // ✅ Redirigir a la vista personalizada del admin
-            return redirect()->route('zonas-seguras.index')->with('success', 'Bienvenido, administrador');
+            $request->session()->put('admin_autenticado', true);
+            $request->session()->put('admin_email', $credentials['correoUsuario']);
+
+            return redirect()->route('zonas-seguras.index')
+                ->with('success', 'Sesión iniciada como administrador 👑');
         }
 
-    // Buscar al usuario por email
-    $usuario = Usuario::where('email', $credentials['correoUsuario'])->first();
+        $usuario = Usuario::where('email', $credentials['correoUsuario'])->first();
 
-    // Verificar si el usuario existe y la contraseña coincide
-    if ($usuario && Hash::check($credentials['passwordUsuario'], $usuario->contraseña)) {
+        if ($usuario && Hash::check($credentials['passwordUsuario'], $usuario->contraseña)) {
+            $request->session()->put('usuario_autenticado', true);
+            $request->session()->put('usuario_id', $usuario->id);
+            $request->session()->put('usuario_nombre', $usuario->nombre);
 
-        // Guardar manualmente los datos del usuario en la sesión
-        $request->session()->put('usuario_autenticado', true);
-        $request->session()->put('usuario_id', $usuario->id);
-        $request->session()->put('usuario_nombre', $usuario->nombre);
+            return redirect()->route('user.inicio')
+                ->with('success', 'Bienvenido, ' . $usuario->nombre . ' 👋 Tu sesión ha sido iniciada correctamente.');
+        }
 
-        // 🔒 Verificar si es el admin principal
-
-        // Si no es el admin especial, ir a inicio general
-        return redirect()->route('user.inicio');
+        return back()->with(['error' => 'Las credenciales no coinciden con nuestros registros.',])->onlyInput('correoUsuario');
     }
 
-    // Si la autenticación falla
-    return back()->withErrors([
-        'correoUsuario' => 'Las credenciales no coinciden con nuestros registros.',
-    ])->onlyInput('correoUsuario');
-}
 
 
 
@@ -183,6 +177,17 @@ public function sesionInicada(Request $request)
         return view('verify');
     }
 
+
+
+
+
+    public function cerrarSesion(Request $request)
+    {
+        Session::flush();
+
+        return redirect('/')
+            ->with('success', 'Has cerrado sesión correctamente.');
+    }
 
 
     public function index()

@@ -149,3 +149,6 @@ Route::resource('/admin/ZonasRiesgo',RiesgoController::class);
 
 
 
+
+
+Route::get('/cerrar-sesion', [AuthController::class, 'cerrarSesion'])->name('logout');
