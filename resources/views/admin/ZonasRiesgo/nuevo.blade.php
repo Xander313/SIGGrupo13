@@ -195,7 +195,8 @@
                 "nombre":{
                     required:true,
                     minlength:11,// cuenta caracteres 
-                    maxlength:25// caracteres maximos
+                    maxlength:25,// caracteres maximos
+                    pattern: /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/ 
                 },
                 "descripcion":{
                     required:true,
@@ -235,7 +236,8 @@
                 "nombre":{
                     required:"Por favor el Campo es obligatorio",
                     minlength:"Debe ingresar minimo 11 caracteres",// cuenta caracteres 
-                    maxlength:"Debe ingresar maxima 25 caracteres"// caracteres maximos
+                    maxlength:"Debe ingresar maxima 25 caracteres",// caracteres maximos
+                    pattern: "Solo se permiten letras y espacios"
                 },
                 "descripcion":{
                     required:"Por favor el Campo es obligatorio",

@@ -5,9 +5,14 @@
     <h1 class="text-center mb-4">Puntos de Encuentro</h1>
     
     @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: '{{ session('success') }}',
+                confirmButtonColor: '#10b981'
+            });
+        </script>
     @endif
 
     <div class="mb-3">
@@ -50,10 +55,10 @@
                             <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#modalPunto{{ $punto->id }}">
                                 <i class="fas fa-map-marker-alt"></i> Ver
                             </button>
-                            <form action="{{ route('admin.puntos-encuentro.destroy', $punto->id) }}" method="POST">
+                            <form action="{{ route('admin.puntos-encuentro.destroy', $punto->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar este punto?')">
+                                <button type="button" class="btn btn-sm btn-danger btn-eliminar">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
@@ -90,7 +95,50 @@
 </div>
 @endforeach
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+$(document).ready(function() {
+    $('.btn-eliminar').on('click', function(e) {
+        e.preventDefault();
+        const form = $(this).closest('form');
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Esta acción no se puede deshacer.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            } else {
+                Swal.fire(
+                    'Cancelado',
+                    'El punto de encuentro no fue eliminado.',
+                    'info'
+                );
+            }
+        });
+    });
+
+    $('#puntos-table').DataTable({
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            'copy',
+            'csv',
+            'excel',
+            'pdf',
+            'print'
+        ]
+    });
+});
+
 // Función para inicializar un mapa específico
 function initMapaPunto(id, lat, lng, radio, nombre) {
     const mapaElement = document.getElementById('mapaPunto'+id);
@@ -141,24 +189,6 @@ document.addEventListener('DOMContentLoaded', function() {
         );
     });
     @endforeach
-});
-</script>
-
-<script>
-$(document).ready(function() {
-    $('#puntos-table').DataTable({
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
-        },
-        dom: 'Bfrtip',
-        buttons: [
-            'copy',
-            'csv',
-            'excel',
-            'pdf',
-            'print'
-        ]
-    });
 });
 </script>
 
