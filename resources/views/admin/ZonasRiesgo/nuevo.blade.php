@@ -10,7 +10,7 @@
         <div class="col-md-10 col-lg-8">
             <div class="card shadow p-4 mb-4 rounded bg-light">
             <div class="col-md-2"></div>
-                <form action="{{ route('ZonasRiesgo.store') }}"  method="POST">
+                <form action="{{ route('ZonasRiesgo.store') }}" id="frm_nuevazona_riesgo" method="POST">
                     @csrf
                     <label for=""><b>Nombre:</b></label>
                     <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre de la zona " required class="form-control">
@@ -188,6 +188,90 @@
             lngInput.value = latLng.lng().toFixed(7);
         }
 
+    </script>
+    <script>
+        $("#frm_nuevazona_riesgo").validate({
+            rules:{
+                "nombre":{
+                    required:true,
+                    minlength:11,// cuenta caracteres 
+                    maxlength:25// caracteres maximos
+                },
+                "descripcion":{
+                    required:true,
+                    minlength:20,// cuenta caracteres 
+                    maxlength:50// caracteres maximos
+                },
+                "nivel":{
+                    required:true
+                },
+                "latitud1":{
+                    required:true
+                },
+                "longitud1":{
+                    required:true,
+                },
+                "latitud2":{
+                    required:true
+                },
+                "longitud2":{
+                    required:true,
+                },
+                "latitud3":{
+                    required:true
+                },
+                "longitud3":{
+                    required:true,
+                },
+                "latitud4":{
+                    required:true
+                },
+                "longitud4":{
+                    required:true,
+                },
+
+            },
+            messages:{
+                "nombre":{
+                    required:"Por favor el Campo es obligatorio",
+                    minlength:"Debe ingresar minimo 11 caracteres",// cuenta caracteres 
+                    maxlength:"Debe ingresar maxima 25 caracteres"// caracteres maximos
+                },
+                "descripcion":{
+                    required:"Por favor el Campo es obligatorio",
+                    minlength:"Debe ingresar minimo 20 caracteres",// cuenta caracteres 
+                    maxlength:"Debe ingresar maxima 50   caracteres"// caracteres maximos
+                },
+                "nivel":{
+                    required:"Por favor el Campo es obligatorio"
+                },
+                "latitud1":{
+                    required:"Por favor el Campo es obligatorio"
+                },
+                "longitud1":{
+                    required:"Por favor el Campo es obligatorio"
+                },
+                "latitud2":{
+                    required:"Por favor el Campo es obligatorio"
+                },
+                "longitud2":{
+                    required:"Por favor el Campo es obligatorio"
+                },
+                "latitud3":{
+                    required:"Por favor el Campo es obligatorio"
+                },
+                "longitud3":{
+                    required:"Por favor el Campo es obligatorio"
+                },
+                "latitud4":{
+                    required:"Por favor el Campo es obligatorio"
+                },
+                "longitud4":{
+                    required:"Por favor el Campo es obligatorio"
+                },
+                
+            }
+        });
     </script>
 
 
