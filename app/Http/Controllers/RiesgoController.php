@@ -67,8 +67,7 @@ class RiesgoController extends Controller
             'longitud4'=> $request->longitud4
         ];
         Riesgo::create($datos);
-         // Pasar mensaje a la vista con nombre 'message'
-        return redirect()->route('ZonasRiesgo.index')->with('message', 'Zona creada exitosamente');
+        return redirect()->route('ZonasRiesgo.index')->with('success', 'Zona creada exitosamente');
     }
 
     /**

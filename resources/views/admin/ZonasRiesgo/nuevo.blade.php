@@ -7,109 +7,48 @@
 </div>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-10 col-lg-8">
+        <div class="col-md-11">
             <div class="card shadow p-4 mb-4 rounded bg-light">
-            <div class="col-md-2"></div>
-                <form action="{{ route('ZonasRiesgo.store') }}" id="frm_nuevazona_riesgo" method="POST">
-                    @csrf
-                    <label for=""><b>Nombre:</b></label>
-                    <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre de la zona " required class="form-control">
-                    <br>
-                    <label for=""><b>Descripción:</b></label>
-                    <input type="text" name="descripcion" id="descripcion" placeholder="Ingrese la descripcion para esta zona" required class="form-control" >
-                    <br>
-                    <div class="mb-3">
-                        <label for="nivel" class="form-label"><b>Nivel:</b></label>
-                                <select class="form-select" name="nivel" id="nivel">
-                                    <option value="" disabled selected>Seleccione un nivel de riesgo</option>
-                                    <option value="Alto">ALTO</option>
-                                    <option value="Medio">MEDIO</option>
-                                    <option value="Bajo">BAJO</option>
-                                </select>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <label for=""><b>COORDENADA N°1</b></label><br><br>
-                            <label for=""><b>Latitud</b></label><br>
-                            <input type="number" name="latitud1" id="latitud1" class="form-control" readonly placeholder="Seleccione la latitud en el mapa">
-                            <label for=""><b>Longitud</b></label><br>
-                            <input type="number" name="longitud1" id="longitud1" class="form-control" readonly placeholder="Seleccione la longitud en el mapa">
-                            <br>
-                        </div>
-                        <div class="col-md-7">
-                        <br>
+            <form action="{{ route('ZonasRiesgo.store') }}" id="frm_nuevazona_riesgo" method="POST">
+                @csrf
+                <div class="row">
+                    
+                    <div class="col-md-6">
+                        <label for="nombre"><b>Nombre:</b></label>
+                        <input type="text" name="nombre" id="nombre" placeholder="Ingrese el nombre de la zona" required class="form-control mb-3">
 
-                        </div>
-                    </div>  
-                    <div class="row">
-                        <div class="col-md-5">
-                            <label for=""><b>COORDENADA N°2</b></label><br><br>
-                            <label for=""><b>Latitud</b></label><br>
-                            <input type="number" name="latitud2" id="latitud2" class="form-control" readonly placeholder="Seleccione la latitud en el mapa">
-                            <label for=""><b>Longitud</b></label><br>
-                            <input type="number" name="longitud2" id="longitud2" class="form-control" readonly placeholder="Seleccione la longitud en el mapa">
-                            <br>
-                        </div>
-                        <div class="col-md-7">
-                        <br>
+                        <label for="descripcion"><b>Descripción:</b></label>
+                        <input type="text" name="descripcion" id="descripcion" placeholder="Ingrese la descripción" required class="form-control mb-3">
 
+                        <label for="nivel"><b>Nivel:</b></label>
+                        <select class="form-select mb-3" name="nivel" id="nivel" required>
+                            <option value="" disabled selected>Seleccione un nivel de riesgo</option>
+                            <option value="Alto">ALTO</option>
+                            <option value="Medio">MEDIO</option>
+                            <option value="Bajo">BAJO</option>
+                        </select>
+
+                        @for ($i = 1; $i <= 4; $i++)
+                            <div class="mb-3">
+                                <label><b>COORDENADA N°{{ $i }}</b></label>
+                                <input type="number" name="latitud{{ $i }}" id="latitud{{ $i }}" class="form-control mb-2" readonly placeholder="Latitud">
+                                <input type="number" name="longitud{{ $i }}" id="longitud{{ $i }}" class="form-control" readonly placeholder="Longitud">
+                            </div>
+                        @endfor
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-success">Guardar</button>
+                            <a href="{{ route('ZonasRiesgo.index') }}" class="btn btn-secondary">Cancelar</a>
+                            <button type="reset" class="btn btn-danger">Limpiar</button>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <label for=""><b>COORDENADA N°3</b></label><br><br>
-                            <label for=""><b>Latitud</b></label><br>
-                            <input type="number" name="latitud3" id="latitud3" class="form-control" readonly placeholder="Seleccione la latitud en el mapa">
-                            <label for=""><b>Longitud</b></label><br>
-                            <input type="number" name="longitud3" id="longitud3" class="form-control" readonly placeholder="Seleccione la longitud en el mapa">
-                            <br>
-                        </div>
-                        <div class="col-md-7">
-                        <br>
 
-                        </div>
+            
+                    <div class="col-md-6 d-flex align-items-center">
+                        <div id="mapa-poligono" style="height: 600px; width: 100%; border: 2px solid blue; border-radius: 8px;"></div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <label for=""><b>COORDENADA N°4</b></label><br><br>
-                            <label for=""><b>Latitud</b></label><br>
-                            <input type="number" name="latitud4" id="latitud4" class="form-control" readonly placeholder="Seleccione la latitud en el mapa">
-                            <label for=""><b>Longitud</b></label><br>
-                            <input type="number" name="longitud4" id="longitud4" class="form-control" readonly placeholder="Seleccione la longitud en el mapa">
-                            <br>
-                        </div>
-                        <div class="col-md-7">
-                        <br>
-
-                        </div>
-                    </div>
-                    <br>
-                    <center>
-                        <button class="btn btn-success">
-                            Guardar
-                        </button>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="{{ route('ZonasRiesgo.index') }}" class="btn btn-secondary">
-                            Cancelar
-                        </a>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="reset" class="btn btn-danger">
-                            Limpiar
-                        </button>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="button" class="btn btn-primary" onclick="graficarZona();">
-                            Graficar Zona de Riesgo
-                        </button>
-                    </center>
-                </form>
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-12">
-                <div id="mapa-poligono" style="height: 500px; width:100%; border:2px solid blue;"></div>
-            </div>
-        </div>
+                </div>
+            </form>
             </div>
         </div>
     </div>
@@ -201,7 +140,7 @@
                 "descripcion":{
                     required:true,
                     minlength:20,// cuenta caracteres 
-                    maxlength:50// caracteres maximos
+                    maxlength:100// caracteres maximos
                 },
                 "nivel":{
                     required:true
@@ -242,7 +181,7 @@
                 "descripcion":{
                     required:"Por favor el Campo es obligatorio",
                     minlength:"Debe ingresar minimo 20 caracteres",// cuenta caracteres 
-                    maxlength:"Debe ingresar maxima 50   caracteres"// caracteres maximos
+                    maxlength:"Debe ingresar maxima 100   caracteres"// caracteres maximos
                 },
                 "nivel":{
                     required:"Por favor el Campo es obligatorio"
