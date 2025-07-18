@@ -120,5 +120,7 @@ function initMap() {
 }
 </script>
 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7lFQ6zmecboYhiJaNi43FELV1wO3jSkY&callback=initMapIconos" async defer></script>
+
 
 @endsection

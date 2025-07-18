@@ -9,7 +9,8 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link rel="shortcut icon" href="{{ asset('tl.png') }}" type="image/x-icon">
+
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,7 +65,6 @@
     </script>
 
     <!-- Carga la API de Google Maps SOLO UNA VEZ -->
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_KEY') }}&callback=initMapIconos" async defer></script>
 
     <!-- Script para inicializar los iconos cuando la API esté lista -->
     <script>
@@ -283,6 +283,7 @@
         });
     </script>
     @endif
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7lFQ6zmecboYhiJaNi43FELV1wO3jSkY&callback=initMapIconos" async defer></script>
 
 </body>
 
