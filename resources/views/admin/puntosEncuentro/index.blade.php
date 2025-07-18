@@ -124,17 +124,43 @@ $(document).ready(function() {
         });
     });
 
-    $('#puntos-table').DataTable({
+    // Configuración de DataTable con botones de exportación
+    let table = new DataTable('#puntos-table', {
         language: {
             url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/es-ES.json'
         },
         dom: 'Bfrtip',
         buttons: [
-            'copy',
-            'csv',
-            'excel',
-            'pdf',
-            'print'
+            {
+                extend: 'copy',
+                text: '<i class="fas fa-copy"></i> Copiar',
+                titleAttr: 'Copiar al portapapeles',
+                className: 'btn btn-secondary'
+            },
+            {
+                extend: 'csv',
+                text: '<i class="fas fa-file-csv"></i> CSV',
+                titleAttr: 'Exportar a CSV',
+                className: 'btn btn-info'
+            },
+            {
+                extend: 'excel',
+                text: '<i class="fas fa-file-excel"></i> Excel',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success'
+            },
+            {
+                extend: 'pdf',
+                text: '<i class="fas fa-file-pdf"></i> PDF',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Imprimir',
+                titleAttr: 'Imprimir tabla',
+                className: 'btn btn-dark'
+            }
         ]
     });
 });
