@@ -214,6 +214,6 @@
             }
         });
     </script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDV-hhnGIiWpn19hxGsr3NpUv7yFXaqFCU&callback=initMap" async defer></script>
 
 @endsection
