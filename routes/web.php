@@ -9,6 +9,11 @@ use App\Http\Controllers\RiesgoController;
 use App\Http\Controllers\UsuarioController;
 
 
+use App\Http\Controllers\ProvinceController;
+use App\Http\Controllers\TypeController;
+use App\Http\Controllers\ZoneController;
+
+
 
 
 
@@ -152,3 +157,13 @@ Route::resource('/admin/ZonasRiesgo',RiesgoController::class);
 
 
 Route::get('/cerrar-sesion', [AuthController::class, 'cerrarSesion'])->name('logout');
+
+
+
+
+
+
+
+Route::resource('provinces', ProvinceController::class);
+Route::resource('types', TypeController::class);
+Route::resource('zones', ZoneController::class);

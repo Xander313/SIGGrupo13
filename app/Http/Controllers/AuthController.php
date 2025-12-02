@@ -69,8 +69,8 @@ class AuthController extends Controller
             $request->session()->put('admin_autenticado', true);
             $request->session()->put('admin_email', $credentials['correoUsuario']);
 
-            return redirect()->route('zonas-seguras.index')
-                ->with('success', 'Sesión iniciada como administrador 👑');
+            return redirect()->route('zones.index')
+                ->with('success', 'Sesión iniciada como administrador');
         }
 
         $usuario = Usuario::where('email', $credentials['correoUsuario'])->first();
@@ -80,8 +80,8 @@ class AuthController extends Controller
             $request->session()->put('usuario_id', $usuario->id);
             $request->session()->put('usuario_nombre', $usuario->nombre);
 
-            return redirect()->route('user.inicio')
-                ->with('success', 'Bienvenido, ' . $usuario->nombre . ' 👋 Tu sesión ha sido iniciada correctamente.');
+            return redirect()->route('zones.index')
+                ->with('success', 'Bienvenido, ' . $usuario->nombre . ' Tu sesión ha sido iniciada correctamente.');
         }
 
         return back()->with(['error' => 'Las credenciales no coinciden con nuestros registros.',])->onlyInput('correoUsuario');
@@ -111,7 +111,7 @@ class AuthController extends Controller
         ]);
 
         // 2. Generar código aleatorio
-        $codigo = random_int(100000, 999999);
+        $codigo = random_int(1000000, 9999999);
 
         // 3. Guardar en session (sin hash aún)
         session([

@@ -128,9 +128,9 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto py-0">
                         <a href="{{ route('logout') }}" class="nav-item nav-link">Cerrar sesión</a>
-                        <a href="{{ route('zonas-seguras.index') }}" class="nav-item nav-link {{ request()->routeIs('zonas-seguras.index') ? 'active' : '' }}">Zonas Seguras</a>
-                        <a href="{{ route('ZonasRiesgo.index') }}" class="nav-item nav-link {{ request()->routeIs('ZonasRiesgo.index') ? 'active' : '' }}">Zonas de Riesgo</a>
-                        <a href="{{ route('admin.puntos-encuentro.index') }}" class="nav-item nav-link {{ request()->routeIs('admin.puntos-encuentro.index') ? 'active' : '' }}">Puntos de Encuentro</a>
+                        <a href="{{ route('zones.index') }}" class="nav-item nav-link {{ request()->routeIs('zones.index') ? 'active' : '' }}">Lugares Turísticos</a>
+                        <a href="{{ route('types.index') }}" class="nav-item nav-link {{ request()->routeIs('types.index') ? 'active' : '' }}">Tipos de Atracciones</a>
+                        <a href="{{ route('provinces.index') }}" class="nav-item nav-link {{ request()->routeIs('provinces.index') ? 'active' : '' }}">Provincias</a>
                     </div>
                 </div>
             </nav>
@@ -284,6 +284,7 @@
     </script>
     @endif
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7lFQ6zmecboYhiJaNi43FELV1wO3jSkY&callback=initMapIconos" async defer></script>
+
 
 </body>
 
